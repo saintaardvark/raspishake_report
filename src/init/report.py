@@ -210,11 +210,16 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
 @click.option("--lon_e", default=0, type=float, help="Earthquake longitude")
 @click.option("--depth", default=0, type=float, help="Earthquake depth")
 @click.option("--mag", default=0, type=float, help="Earthquake magnitude")
+@click.option(
+    "--time_e",
+    type=click.DateTime(formats=["%Y-%m-%dT%H:%M:%S"]),
+    help="Earthquake time (UTC) -- %Y-%m-%dT%H:%M:%S",
+)
 @click.option("--event_id", default=0, type=str, help="Event ID (used for plotting)")
 @click.option(
     "--location", default=0, type=str, help="Location name (used for plotting)"
 )
-def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
+def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, time_e, event_id, location):
     """
     Main entry point
     """
@@ -231,13 +236,10 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
     )  # get the instrument response
 
     # enter event data
-    eventTime = UTCDateTime(
-        2023, 6, 10, 9, 43, 4
-    )  # (YYYY, m, d, H, M, S) **** Enter data****
-
+    eventTime = UTCDateTime(time_e)
     # set plot start time
     delay = config.getint(
-        "DEFAULT","delay"
+        "DEFAULT", "delay"
     )  # delay the start of the plot from the event **** Enter data****
     duration = config.getint("DEFAULT", "plot_duration")
 
@@ -398,7 +400,7 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
         "M"
         + str(mag)
         + " Earthquake - "
-        + loc_e
+        + location
         + " - "
         + eventTime.strftime(" %d/%m/%Y %H:%M:%S UTC"),
         weight="black",
@@ -871,7 +873,7 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
         "E:\Pictures\Raspberry Shake and Boom\M"
         + str(mag)
         + "Quake "
-        + loc_e
+        + location
         + event_id
         + eventTime.strftime("%Y%m%d %H%M%S UTC" + pfile + ".png")
     )
