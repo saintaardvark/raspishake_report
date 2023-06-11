@@ -87,7 +87,13 @@ plot_map:
 plot:
 	./src/init/report.py \
 		main_plot \
-		--bandpass_filter=local
+		--bandpass_filter=local \
+		--lat_e 38.743 \
+		--lon_e -122.722 \
+		--depth 1.5 \
+		--mag 2.6 \
+		--event_id nc73899481 \
+		--location "Anderson, California"
 
 #################################################################################
 # PROJECT RULES                                                                 #

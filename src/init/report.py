@@ -206,7 +206,13 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     default="distant",
     help="Which filter to use: distant, semi-distant, medium, near, local",
 )
-def main_plot(bandpass_filter):
+@click.option("--lat_e", default=0, type=float, help="Earthquake latitude")
+@click.option("--lon_e", default=0, type=float, help="Earthquake longitude")
+@click.option("--depth", default=0, type=float, help="Earthquake depth")
+@click.option("--mag", default=0, type=float, help="Earthquake magnitude")
+@click.option("--event_id", default=0, type=str, help="Event ID (used for plotting)")
+@click.option("--location", default=0, type=str, help="Location name (used for plotting)")
+def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
     """
     Main entry point
     """
@@ -226,12 +232,11 @@ def main_plot(bandpass_filter):
     eventTime = UTCDateTime(
         2023, 6, 10, 9, 43, 4
     )  # (YYYY, m, d, H, M, S) **** Enter data****
-    latE = 38.743  # quake latitude + N -S **** Enter data****
-    lonE = -122.722  # quake longitude + E - W **** Enter data****
-    depth = 1.5  # quake depth, km **** Enter data****
-    mag = 2.6  # quake magnitude **** Enter data****
-    eventID = "nc73899481"  # ID for the event **** Enter data****
-    locE = "Anderson, California"  # location name **** Enter data****
+    latE = lat_e  # quake latitude + N -S **** Enter data****
+    lonE = lon_e  # quake longitude + E - W **** Enter data****
+    depth = depth # quake depth, km **** Enter data****
+    eventID = event_id  # ID for the event **** Enter data****
+    locE = location  # location name **** Enter data****
 
     # set plot s29tart time
     delay = config["DEFAULT"][
