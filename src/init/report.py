@@ -257,7 +257,7 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
         "local": [1, 1, 20, 20.1],  # use for local quakes
     }
 
-    filter = filters[bandpass_filter]
+    filt = filters[bandpass_filter]
     # set the FDSN server location and channel names
     ch = "EHZ"  # ENx = accelerometer channels; EHx or SHZ = geophone channels
 
