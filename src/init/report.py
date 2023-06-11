@@ -211,17 +211,19 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
 @click.option("--depth", default=0, type=float, help="Earthquake depth")
 @click.option("--mag", default=0, type=float, help="Earthquake magnitude")
 @click.option("--event_id", default=0, type=str, help="Event ID (used for plotting)")
-@click.option("--location", default=0, type=str, help="Location name (used for plotting)")
-def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
+@click.option(
+    "--location", default=0, type=str, help="Location name (used for plotting)"
+)
+def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location):
     """
     Main entry point
     """
     config = configparser.ConfigParser()
     config.read("report.ini")
     stn = config["station"]["name"]
-    latS = config["station"]["lat"]  # station latitude
-    lonS = config["station"]["lon"]  # station longitude
-    eleS = config["station"]["elev"]  # station elevation
+    latS = config.getfloat("station", "lat")  # station latitude
+    lonS = config.getfloat("station", "lon")  # station longitude
+    eleS = config.getfloat("station", "elev")  # station elevation
 
     rs = Client("RASPISHAKE")
     inv = rs.get_stations(
@@ -232,25 +234,19 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
     eventTime = UTCDateTime(
         2023, 6, 10, 9, 43, 4
     )  # (YYYY, m, d, H, M, S) **** Enter data****
-    latE = lat_e  # quake latitude + N -S **** Enter data****
-    lonE = lon_e  # quake longitude + E - W **** Enter data****
-    depth = depth # quake depth, km **** Enter data****
-    eventID = event_id  # ID for the event **** Enter data****
-    locE = location  # location name **** Enter data****
 
-    # set plot s29tart time
-    delay = config["DEFAULT"][
-        "delay"
-    ]  # delay the start of the plot from the event **** Enter data****
-    duration = config["DEFAULT"][
-        "plot_duration"
-    ]  # duration of plots **** Enter data****
+    # set plot start time
+    delay = config.getint(
+        "DEFAULT","delay"
+    )  # delay the start of the plot from the event **** Enter data****
+    duration = config.getint("DEFAULT", "plot_duration")
+
     start = eventTime + delay  # calculate the plot start time from the event and delay
     end = start + duration  # calculate the end time from the start and duration
 
     #
-    bnstart = eventTime - config["DEFAULT"]["bn_start"]  #
-    bnend = eventTime + config["DEFAULT"]["bn_end"]
+    bnstart = eventTime - config.getint("DEFAULT", "bn_start")
+    bnend = eventTime + config.getint("DEFAULT", "bn_end")
 
     # bandpass filter - select to suit system noise and range of quake
     filters = {
@@ -289,8 +285,8 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
     # convert angles to radians
     latSrad = math.radians(latS)
     lonSrad = math.radians(lonS)
-    latErad = math.radians(latE)
-    lonErad = math.radians(lonE)
+    latErad = math.radians(lat_e)
+    lonErad = math.radians(lon_e)
 
     if lonSrad > lonErad:
         lon_diff = lonSrad - lonErad
@@ -388,7 +384,7 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
     # plot map
     plot_map = False
     if plot_map == True:
-        plot_map(latE=latE, lonE=lonE, latS=latS, lonS=lonS)
+        plot_map(latE=lat_e, lonE=lon_e, latS=latS, lonS=lonS)
 
     fig = plt.figure(figsize=(20, 12))  # set to page size in inches
     ax1 = fig.add_subplot(6, 2, 1)  # displacement waveform
@@ -402,7 +398,7 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
         "M"
         + str(mag)
         + " Earthquake - "
-        + locE
+        + loc_e
         + " - "
         + eventTime.strftime(" %d/%m/%Y %H:%M:%S UTC"),
         weight="black",
@@ -426,16 +422,16 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
         0.4,
         0.95,
         "Latitude: "
-        + str(latE)
+        + str(lat_e)
         + "\N{DEGREE SIGN}"
         + " Longitude: "
-        + str(lonE)
+        + str(lon_e)
         + "\N{DEGREE SIGN}"
         + " Depth: "
         + str(depth)
         + "km.",
     )  # quake lat, lon and depth
-    fig.text(0.7, 0.95, "Event ID: " + eventID)
+    fig.text(0.7, 0.95, "Event ID: " + event_id)
     fig.text(0.98, 0.95, "Station: AM." + stn + ".00." + ch, ha="right")
     fig.text(
         0.98, 0.935, "Raspberry Shake and Boom", color="r", ha="right", size="small"
@@ -875,8 +871,8 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, event_id, location ):
         "E:\Pictures\Raspberry Shake and Boom\M"
         + str(mag)
         + "Quake "
-        + locE
-        + eventID
+        + loc_e
+        + event_id
         + eventTime.strftime("%Y%m%d %H%M%S UTC" + pfile + ".png")
     )
     fig.text(0.02, 0.01, filename, size="x-small")
