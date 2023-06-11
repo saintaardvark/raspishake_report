@@ -6,6 +6,7 @@ import math
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import click
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 import numpy as np
@@ -16,6 +17,14 @@ from obspy.taup import TauPyModel
 
 
 rs = Client("RASPISHAKE")
+
+
+@click.group()
+def report():
+    """
+    A tool to generate earthquke reports.
+    """
+    pass
 
 
 def plot_arrivals(ax, arrs, delay, duration):
@@ -127,17 +136,22 @@ def divTrace(
     return tr.__div__(n)
 
 
-def plot_map(latE=0, lonE=0, latS=0, lonS=0):
+@click.command("plot_map", short_help="Plot map of earthquake and station")
+@click.option("--lat_e", default=0, type=float, help="Earthquake latitude")
+@click.option("--lon_e", default=0, type=float, help="Earthquake longitude")
+@click.option("--lat_s", default=0, type=float, help="Station latitude")
+@click.option("--lon_s", default=0, type=float, help="Station longitude")
+def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     """
     Plot map
     """
     latC = (
-        latE + latS
+        lat_e + lat_s
     ) / 2  # latitude 1/2 way between station and event/earthquake - may need adjusting!
     lonC = (
-        lonE + lonS
+        lon_e + lon_s
     ) / 2  # longitude 1/2 way between station and event/earthquake - may need adjusting!
-    if abs(lonE - lonS) > 180:
+    if abs(lon_e - lon_s) > 180:
         lonC = lonC + 180
     plt.figure(figsize=(12, 12))
     ax = plt.axes(
@@ -158,8 +172,8 @@ def plot_map(latE=0, lonE=0, latS=0, lonS=0):
     ax.gridlines()
     # plot station position on map
     plt.plot(
-        lonS,
-        latS,
+        lon_s,
+        lat_s,
         color="blue",
         marker="o",
         markersize=10,
@@ -167,8 +181,8 @@ def plot_map(latE=0, lonE=0, latS=0, lonS=0):
     )
     # plot event/earthquake position on map
     plt.plot(
-        lonE,
-        latE,
+        lon_e,
+        lat_e,
         color="red",
         marker="*",
         markersize=12,
@@ -176,8 +190,8 @@ def plot_map(latE=0, lonE=0, latS=0, lonS=0):
     )
     # plot dashed great circle line from event/earthquake to station
     plt.plot(
-        [lonS, lonE],
-        [latS, latE],
+        [lon_s, lon_e],
+        [lat_s, lat_e],
         color="red",
         linewidth=2,
         linestyle="--",
@@ -188,7 +202,8 @@ def plot_map(latE=0, lonE=0, latS=0, lonS=0):
     plt.close()  # close this figure so the next one can be created
 
 
-def main():
+@click.command("plot_arrivals", short_help="Fetch data and plot arrivals")
+def plot_arrivals():
     """
     Main entry point
     """
@@ -860,6 +875,8 @@ def main():
     plt.show()
 
 
+report.add_command(plot_map)
+report.add_command(plot_arrivals)
+
 if __name__ == "__main__":
-    print("Starting main!")
-    main()
+    report()
