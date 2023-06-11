@@ -2,6 +2,7 @@
 
 # Source: https://community.raspberryshake.org/t/my-current-python-report-for-code-examples/3285
 
+import configparser
 import math
 
 import cartopy.crs as ccrs
@@ -14,9 +15,6 @@ from obspy.clients.fdsn import Client
 from obspy.core import UTCDateTime
 from obspy.signal import filter
 from obspy.taup import TauPyModel
-
-
-rs = Client("RASPISHAKE")
 
 
 @click.group()
@@ -202,20 +200,27 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     plt.close()  # close this figure so the next one can be created
 
 
-@click.command("plot_arrivals", short_help="Fetch data and plot arrivals")
-def plot_arrivals():
+@click.command("main_plot", short_help="Fetch data and plot arrivals")
+@click.option(
+    "--bandpass_filter",
+    default="distant",
+    help="Which filter to use: distant, semi-distant, medium, near, local",
+)
+def main_plot(bandpass_filter):
     """
     Main entry point
     """
+    config = configparser.ConfigParser()
+    config.read("report.ini")
+    stn = config["station"]["name"]
+    latS = config["station"]["lat"]  # station latitude
+    lonS = config["station"]["lon"]  # station longitude
+    eleS = config["station"]["elev"]  # station elevation
 
-    # set the station name and download the response information
-    stn = "RAF36"  # your station name
+    rs = Client("RASPISHAKE")
     inv = rs.get_stations(
         network="AM", station=stn, level="RESP"
     )  # get the instrument response
-    latS = 49.284  # station latitude
-    lonS = -123.021  # station longitude
-    eleS = 100  # station elevation
 
     # enter event data
     eventTime = UTCDateTime(
@@ -229,26 +234,29 @@ def plot_arrivals():
     locE = "Anderson, California"  # location name **** Enter data****
 
     # set plot s29tart time
-    delay = 30  # delay the start of the plot from the event **** Enter data****
-    duration = 1800  # duration of plots **** Enter data****
+    delay = config["DEFAULT"][
+        "delay"
+    ]  # delay the start of the plot from the event **** Enter data****
+    duration = config["DEFAULT"][
+        "plot_duration"
+    ]  # duration of plots **** Enter data****
     start = eventTime + delay  # calculate the plot start time from the event and delay
     end = start + duration  # calculate the end time from the start and duration
 
-    # set background noise sample times (choose a section of minimum velocity amplitude to represent background noise)
-    bnstart = (
-        eventTime - 900
-    )  # enter time of start of background noise sample (default = 0) **** Enter data****
-    bnend = (
-        eventTime + 600
-    )  # enter time of end of background noise sample (default = 600) **** Enter data****
+    #
+    bnstart = eventTime - config["DEFAULT"]["bn_start"]  #
+    bnend = eventTime + config["DEFAULT"]["bn_end"]
 
     # bandpass filter - select to suit system noise and range of quake
-    # filt = [0.7, 0.7, 2, 2.1]  # distant quake
-    # filt = [0.7, 0.7, 6, 6.1]
-    # filt = [0.7, 0.7, 8, 8.1]
-    # filt = [1, 1, 10, 10.1]
-    filt = [1, 1, 20, 20.1]  # use for local quakes
+    filters = {
+        "distant": [0.7, 0.7, 2, 2.1],  # distant quake,
+        "semi-distant": [0.7, 0.7, 6, 6.1],
+        "medium": [0.7, 0.7, 8, 8.1],
+        "near": [1, 1, 10, 10.1],
+        "local": [1, 1, 20, 20.1],  # use for local quakes
+    }
 
+    filter = filters[bandpass_filter]
     # set the FDSN server location and channel names
     ch = "EHZ"  # ENx = accelerometer channels; EHx or SHZ = geophone channels
 
@@ -876,7 +884,7 @@ def plot_arrivals():
 
 
 report.add_command(plot_map)
-report.add_command(plot_arrivals)
+report.add_command(main_plot)
 
 if __name__ == "__main__":
     report()
