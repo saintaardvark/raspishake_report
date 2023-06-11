@@ -76,6 +76,19 @@ endif
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 
+plot_map:
+	./src/init/report.py \
+		plot_map \
+		--lat_e 38.743 \
+		--lon_e -122.722 \
+		--lat_s 49.284 \
+		--lon_s -123.021
+
+plot:
+	./src/init/report.py \
+		main_plot \
+		--bandpass_filter=local
+
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
