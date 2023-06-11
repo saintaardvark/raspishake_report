@@ -219,7 +219,14 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
 @click.option(
     "--location", default=0, type=str, help="Location name (used for plotting)"
 )
-def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, time_e, event_id, location):
+@click.option(
+    "--save_file/--no-save-file",
+    default=False,
+    help="Save file rather than displaying graphically",
+)
+def main_plot(
+    bandpass_filter, lat_e, lon_e, depth, mag, time_e, event_id, location, save_file
+):
     """
     Main entry point
     """
@@ -866,24 +873,27 @@ def main_plot(bandpass_filter, lat_e, lon_e, depth, mag, time_e, event_id, locat
 
     # create phase identifier for filename
     if allphases:
-        pfile = " All"
+        pfile = "All"
+    else:
+        pfile = ""
 
     # print filename on bottom left corner of diagram
     filename = (
-        "E:\Pictures\Raspberry Shake and Boom\M"
-        + str(mag)
-        + "Quake "
-        + location
-        + event_id
-        + eventTime.strftime("%Y%m%d %H%M%S UTC" + pfile + ".png")
+        config["DEFAULT"]["output_dir"]
+        + "/"
+        + f"{str(mag)}_Quake_{location}_{event_id}-"
+        + eventTime.strftime("%Y-%m-%dT%H:%M:%S_UTC-")
+        + pfile
+        + ".png"
     )
     fig.text(0.02, 0.01, filename, size="x-small")
 
     # save the final figure
-    # plt.savefig(filename)  #comment this line out till figure is final
-
-    # show the final figure
-    plt.show()
+    if save_file:
+        print(f"Saving {filename}...")
+        plt.savefig(filename)  # comment this line out till figure is final
+    else:
+        plt.show()
 
 
 report.add_command(plot_map)

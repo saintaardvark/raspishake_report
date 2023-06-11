@@ -95,6 +95,18 @@ plot:
 		--time_e "2023-06-10T09:43:04" \
 		--event_id nc73899481 \
 		--location "Anderson, California"
+save_plot:
+	./src/init/report.py \
+		main_plot \
+		--bandpass_filter=local \
+		--lat_e 38.743 \
+		--lon_e -122.722 \
+		--depth 1.5 \
+		--mag 2.6 \
+		--time_e "2023-06-10T09:43:04" \
+		--event_id nc73899481 \
+		--location "Anderson, California" \
+		--save_file
 
 
 #################################################################################
