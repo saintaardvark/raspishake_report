@@ -2,16 +2,18 @@
 
 # Source: https://community.raspberryshake.org/t/my-current-python-report-for-code-examples/3285
 
-from obspy.clients.fdsn import Client
-from obspy.core import UTCDateTime
-from obspy.signal import filter
+import math
+
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 import numpy as np
+from obspy.clients.fdsn import Client
+from obspy.core import UTCDateTime
+from obspy.signal import filter
 from obspy.taup import TauPyModel
-import math
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
+
 
 rs = Client("RASPISHAKE")
 
