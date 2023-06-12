@@ -3,6 +3,10 @@ raspishake_report
 
 Raspberry Shake Reports
 
+Requirements:
+
+- libgeos-devel (Debian), geos-devel (Fedora)
+
 Project Organization
 ------------
 
