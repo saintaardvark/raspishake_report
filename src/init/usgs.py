@@ -32,7 +32,7 @@ def main():
             + f"--mag {mag} "
             + f"--time_e {time_e_formatted} "
             + f"--event_id {event_id} "
-            + f"--location \"{location}\" "
+            + f"--location \"{location}\""
         )
 
 
