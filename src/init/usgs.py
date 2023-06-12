@@ -17,7 +17,7 @@ def main():
 
     # TODO: We should be parsing this w/geojson
     for quake in quakes["features"]:
-        lat_e, lon_e, depth = quake["geometry"]["coordinates"]
+        lon_e, lat_e, depth = quake["geometry"]["coordinates"]
         mag = quake["properties"]["mag"]
         time_e = quake["properties"]["time"] / 1000  # ms since epoch
         time_e_formatted = datetime.fromtimestamp(time_e).strftime("%Y-%m-%dT%H:%M:%S")
