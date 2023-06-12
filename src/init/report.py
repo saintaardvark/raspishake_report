@@ -267,6 +267,7 @@ def main_plot(
     }
 
     filt = filters[bandpass_filter]
+    print(f"[LOG] Using bandpass filter {bandpass_filter} ({filt})")
     # set the FDSN server location and channel names
     ch = "EHZ"  # ENx = accelerometer channels; EHx or SHZ = geophone channels
 
