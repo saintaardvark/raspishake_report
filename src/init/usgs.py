@@ -35,8 +35,10 @@ def main():
             + f"--mag {mag} "
             + f"--time_e {time_e_formatted} "
             + f"--event_id {event_id} "
-            + f"--location \"{location}\""
+            + f"--location \"{location}\" "
+            + "--save_file"
         )
+        print("sleep $(($RANDOM % 60))")
 
 
 if __name__ == "__main__":
