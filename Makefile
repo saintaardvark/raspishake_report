@@ -108,6 +108,11 @@ save_plot:
 		--location "Anderson, California" \
 		--save_file
 
+rsync:
+	rsync -avr rh:/backup/batch_jobs/raspishake_report/reports/. ./reports
+
+today: rsync
+	find reports -type f -ctime -1 -exec xdg-open '{}' \;
 
 #################################################################################
 # PROJECT RULES                                                                 #
