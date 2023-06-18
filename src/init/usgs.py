@@ -13,7 +13,7 @@ def main():
     """
     Main entry point
     """
-    resp = requests.get(LAST_WEEK_URL)
+    resp = requests.get(LAST_DAY_URL)
     quakes = resp.json()
     # print(json.dumps(quakes, indent=2))
 
