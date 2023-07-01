@@ -315,7 +315,7 @@ def main_plot(
     )  # calculate distance between quake and station in km
 
     # Calculate the Phase Arrivals
-    print("[LOG] Calculating hase arrivals...")
+    print("[LOG] Calculating phase arrivals...")
     model = TauPyModel(model="iasp91")
     arrs = model.get_travel_times(depth, great_angle_deg)
     print(arrs)  # print the arrivals for reference when setting delay and duration
