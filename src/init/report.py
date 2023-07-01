@@ -224,8 +224,22 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     default=False,
     help="Save file rather than displaying graphically",
 )
+@click.option(
+    "--all_phases/--no-all_phases",
+    default=True,
+    help="Plot all phases; otherwise only those in the plotted time window are plotted",
+)
 def main_plot(
-    bandpass_filter, lat_e, lon_e, depth, mag, time_e, event_id, location, save_file
+    bandpass_filter,
+    lat_e,
+    lon_e,
+    depth,
+    mag,
+    time_e,
+    event_id,
+    location,
+    save_file,
+    all_phases,
 ):
     """
     Main entry point
@@ -653,7 +667,6 @@ def main_plot(
     fig.text(x2, 0.2, "Vertical Component", alpha=0.5, size="small", rotation=90)
     pphases = []  # create an array of phases to plot
     pfile = ""  # create phase names for filename
-    allphases = True  # true if all phases to be plotted, otherwise only those in the plotted time window are plotted **** Enter data****
     alf = 1.0  # set default transparency
     for i in range(0, no_arrs):  # print data array
         x2 += dx
@@ -678,7 +691,7 @@ def main_plot(
         fig.text(
             x2, 0.15, arrtime.strftime("%H:%M:%S"), size="small", rotation=90, alpha=alf
         )
-        if allphases or (
+        if all_phases or (
             arrs[i].time >= delay and arrs[i].time < (delay + duration)
         ):  # build the array of phases
             pphases.append(arrs[i].name)
@@ -720,7 +733,7 @@ def main_plot(
 
     print(pphases)  # print the phases to be plotted on ray path diagram
 
-    if allphases or (rayt >= delay and rayt <= (delay + duration)):
+    if all_phases or (rayt >= delay and rayt <= (delay + duration)):
         x2 = 0.905 - dx
         fig.text(
             x2,
@@ -802,7 +815,7 @@ def main_plot(
         show=False,
         legend=True,
     )  # plot the ray paths
-    if allphases:
+    if all_phases:
         ax7.text(
             math.radians(315),
             4800,
@@ -873,7 +886,7 @@ def main_plot(
     )
 
     # create phase identifier for filename
-    if allphases:
+    if all_phases:
         pfile = "All"
     else:
         pfile = ""
