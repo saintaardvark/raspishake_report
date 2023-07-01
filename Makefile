@@ -10,7 +10,7 @@ PROFILE = default
 PROJECT_NAME = raspishake_report
 PYTHON_INTERPRETER = python3
 
-ifeq (,$(shell which conda))
+ifeq (,$(shell which conda > /dev/null 2>&1 ))
 HAS_CONDA=False
 else
 HAS_CONDA=True
