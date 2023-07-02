@@ -4,6 +4,7 @@
 
 import configparser
 import math
+import os
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -15,6 +16,7 @@ from obspy.clients.fdsn import Client
 from obspy.core import UTCDateTime
 from obspy.signal import filter
 from obspy.taup import TauPyModel
+from obspy import read, read_inventory
 
 
 @click.group()
@@ -23,6 +25,30 @@ def report():
     A tool to generate earthquke reports.
     """
     pass
+
+
+def get_inv(cache_dir="", stn="", client=None):
+    """Get response data for station.
+
+    Uses cached data if present.
+    """
+    cache_file = f"{cache_dir}/{stn}.xml"
+    if os.path.exists(cache_file):
+        print("[LOG] Reading in cached station response data...")
+        return read_inventory(cache_file, format="STATIONXML")
+    else:
+        print(
+            "[LOG] Cached station response data not found -- will download & save for next time"
+        )
+        inv = client.get_stations(network="AM", station=stn, level="RESP")
+        try:
+            os.makedirs(cache_dir, exist_ok=True)
+            inv.write(cache_file, format="STATIONXML")
+        except Exception as exc:
+            print(
+                "[WARNING] Can't save response data for next time, continuing with what I've got: {exc}"
+            )
+        return inv
 
 
 def plot_arrivals(ax, arrs, delay, duration):
@@ -252,9 +278,7 @@ def main_plot(
     eleS = config.getfloat("station", "elev")  # station elevation
 
     rs = Client("RASPISHAKE")
-    inv = rs.get_stations(
-        network="AM", station=stn, level="RESP"
-    )  # get the instrument response
+    inv = get_inv(cache_dir=config["DEFAULT"]["cache_dir"], stn=stn, client=rs)
 
     # enter event data
     eventTime = UTCDateTime(time_e)
@@ -332,41 +356,51 @@ def main_plot(
     print("[LOG] Calculating phase arrivals...")
     model = TauPyModel(model="iasp91")
     arrs = model.get_travel_times(depth, great_angle_deg)
-    print(arrs)  # print the arrivals for reference when setting delay and duration
+    print(
+        "[LOG]", arrs
+    )  # print the arrivals for reference when setting delay and duration
     no_arrs = len(arrs)  # the number of arrivals
 
     # calculate Rayleigh Wave arrival Time
     rayt = distance / 2.96
 
     # Create output traces
+    print("[LOG] Removing response from trace0...")
     outdisp = trace0.remove_response(
         inventory=inv, pre_filt=filt, output="DISP", water_level=60, plot=False
     )  # convert to Disp
+    print("[LOG] Removing response from trace1...")
     outvel = trace1.remove_response(
         inventory=inv, pre_filt=filt, output="VEL", water_level=60, plot=False
     )  # convert to Vel
+    print("[LOG] Removing response from trace2...")
     outacc = trace2.remove_response(
         inventory=inv, pre_filt=filt, output="ACC", water_level=60, plot=False
     )  # convert to Acc
 
     # Calculate maximums
+    print("[LOG] calculating maximums...")
     disp_max = outdisp[0].max()
     vel_max = outvel[0].max()
     acc_max = outacc[0].max()
     se_max = vel_max * vel_max / 2
 
     # Create background noise traces
+    print("[LOG] Removing response from bn0...")
     bndisp = bn0.remove_response(
         inventory=inv, pre_filt=filt, output="DISP", water_level=60, plot=False
     )  # convert to Disp
+    print("[LOG] Removing response from bn1...")
     bnvel = bn1.remove_response(
         inventory=inv, pre_filt=filt, output="VEL", water_level=60, plot=False
     )  # convert to Vel
+    print("[LOG] Removing response from bn2...")
     bnacc = bn2.remove_response(
         inventory=inv, pre_filt=filt, output="ACC", water_level=60, plot=False
     )  # convert to Acc
 
     # Calculate background noise limits using standard deviation
+    print("[LOG] Calculating background noise limits...")
     bns = int(
         (bnend - bnstart) / 15
     )  # calculate the number of 15s samples in the background noise traces
@@ -630,8 +664,8 @@ def main_plot(
         sticks.append(
             uTC2time(eventTime, tbase + k * dt) - delay
         )  # build the array of time ticks for the spectrogram
-    print(tlabels)  # print the time labels - just a check for development
-    print(tticks)  # print the time ticks - just a  check for development
+    print(f"[LOG] {tlabels=}")  # print the time labels - just a check for development
+    print(f"[LOG] {tticks=}")  # print the time ticks - just a check for development
     secax_x1 = ax1.secondary_xaxis("top")  # Displacement secondary axis
     secax_x1.set_xticks(ticks=tticks)
     secax_x1.set_xticklabels(tlabels, size="small", va="center_baseline")
@@ -731,7 +765,7 @@ def main_plot(
         x2, 0.03, str(no_arrs) + " arrivals total.", size="small", rotation=90
     )  # print number of arrivals
 
-    print(pphases)  # print the phases to be plotted on ray path diagram
+    print(f"[LOG] {pphases=}")  # print the phases to be plotted on ray path diagram
 
     if all_phases or (rayt >= delay and rayt <= (delay + duration)):
         x2 = 0.905 - dx
@@ -765,9 +799,13 @@ def main_plot(
         fig.text(x2, 0.03, pkey[i], size="small", rotation=90)  # print the phase key
 
     # plot phase arrivals
+    print("[LOG] plot arrivals on displacement plot")
     plot_arrivals(ax1, arrs, delay, duration)  # plot arrivals on displacement plot
+    print("[LOG] plot arrivals on velocity plot")
     plot_arrivals(ax2, arrs, delay, duration)  # plot arrivals on velocity plot
+    print("[LOG] plot arrivals on acceleration plot")
     plot_arrivals(ax3, arrs, delay, duration)  # plot arrivals on acceleration plot
+    print("[LOG] plot arrivals on energy plot")
     plot_arrivals(ax6, arrs, delay, duration)  # plot arrivals on energy plot
 
     # set up some plot details
