@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
+import configparser
 from datetime import datetime
 import json
 import requests
 
 import click
+from obspy.core import UTCDateTime
 
 USGS_FEEDS = {
     "LAST_DAY_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
@@ -12,7 +14,7 @@ USGS_FEEDS = {
     "LAST_DAY_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson",
     "LAST_WEEK_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
     "LAST_WEEK_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
-    "LAST_WEEK_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson"
+    "LAST_WEEK_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
 }
 
 
@@ -21,6 +23,52 @@ def usgs():
     """A tool to query the USGS for earthquake data, and to generate
     commands to run reports on them.
     """
+
+
+@click.command("build_db", short_help="Build/update sqlite db")
+@click.option(
+    "--feed",
+    type=click.Choice(list(USGS_FEEDS.keys())),
+    default="LAST_DAY_OVER_4_POINT_5",
+    show_default=True,
+    help="Feed to use",
+)
+def build_db(feed):
+    """
+    Build/update sqlite db
+    """
+    # FIXME: Copy-pasta of query()
+    feed_url = ""
+    try:
+        feed_url = USGS_FEEDS[feed]
+    except IndexError:
+        print("Invalid choice for feed!  Valid options: ")
+        print(", ".join(list(USGS_FEEDS.keys())))
+    resp = requests.get(feed_url)
+    quakes = resp.json()
+    print(type(quakes))
+    for quake in quakes["features"]:
+        # TODO: This is *huge* code duplication
+        mag = quake["properties"]["mag"]
+        location = quake["properties"]["place"]
+        event_id = quake["properties"]["code"]
+        eventTime = UTCDateTime(quake["properties"]["time"] / 1000)  # ms since epoch
+        pfile = "All"
+        config = configparser.ConfigParser()
+        config.read("report.ini")
+        filename = (
+            config["DEFAULT"]["output_dir"]
+            + "/"
+            + f"{str(mag)}_Quake_{location}_{event_id}-"
+            + eventTime.strftime("%Y-%m-%dT%H:%M:%S_UTC-")
+            + pfile
+            + ".png"
+        )
+        quake["properties"]["report_url"] = f"https://home.saintaardvarkthecarpeted.com/earthquake_data/{filename}"
+
+    local_filename = feed_url.split("/")[-1]
+    with open(local_filename, "w") as f:
+        f.write(json.dumps(quakes, indent=2))
 
 
 @click.command("query", short_help="query earthquakes")
@@ -72,7 +120,7 @@ def query(feed):
 
 
 usgs.add_command(query)
-
+usgs.add_command(build_db)
 
 if __name__ == "__main__":
     usgs()
