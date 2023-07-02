@@ -273,11 +273,11 @@ def main_plot(
 
     # bandpass filter - select to suit system noise and range of quake
     filters = {
-        "distant": [0.7, 0.7, 2, 2.1],  # distant quake,
-        "semi-distant": [0.7, 0.7, 6, 6.1],
-        "medium": [0.7, 0.7, 8, 8.1],
-        "near": [1, 1, 10, 10.1],
-        "local": [1, 1, 20, 20.1],  # use for local quakes
+        "distant": [0.6, 0.7, 2, 2.1],  # distant quake,
+        "semi-distant": [0.6, 0.7, 6, 6.1],
+        "medium": [0.6, 0.7, 8, 8.1],
+        "near": [1, 1.1, 10, 10.1],
+        "local": [1, 1.1, 20, 20.1],  # use for local quakes
     }
 
     filt = filters[bandpass_filter]
