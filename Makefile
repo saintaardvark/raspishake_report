@@ -114,11 +114,15 @@ rsync:
 today: rsync
 	find reports -type f -ctime -1 -exec xdg-open '{}' \;
 
-datasette: install_datasette_plugins
+datasette: install_datasette_plugins build_db
 	datasette my.db
 
 install_datasette_plugins:
 	datasette install datasette-cluster-map datasette-geojson-map
+
+build_db:
+	./src/init/usgs.py build_db
+	geojson-to-sqlite --alter my.db features 4.5_day.geojson
 
 #################################################################################
 # PROJECT RULES                                                                 #
