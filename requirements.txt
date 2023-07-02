@@ -11,3 +11,4 @@ obspy
 matplotlib
 numpy
 cartopy
+loguru==0.7.0

@@ -9,6 +9,7 @@ import os
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import click
+from loguru import logger
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 import numpy as np
@@ -34,20 +35,16 @@ def get_inv(cache_dir="", stn="", client=None):
     """
     cache_file = f"{cache_dir}/{stn}.xml"
     if os.path.exists(cache_file):
-        print("[LOG] Reading in cached station response data...")
+        logger.debug("Reading in cached station response data...")
         return read_inventory(cache_file, format="STATIONXML")
     else:
-        print(
-            "[LOG] Cached station response data not found -- will download & save for next time"
-        )
+        logger.debug("Cached station response data not found -- will download & save for next time")
         inv = client.get_stations(network="AM", station=stn, level="RESP")
         try:
             os.makedirs(cache_dir, exist_ok=True)
             inv.write(cache_file, format="STATIONXML")
         except Exception as exc:
-            print(
-                "[WARNING] Can't save response data for next time, continuing with what I've got: {exc}"
-            )
+            logger.warn("Can't save response data for next time, continuing with what I've got: {exc}")
         return inv
 
 
@@ -170,7 +167,7 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     Plot map
     """
     if lat_s == 0 or lon_s == 0:
-        print("[LOG] Using configuration file for station data")
+        logger.debug("Using configuration file for station data")
         config = configparser.ConfigParser()
         config.read("report.ini")
         stn = config["station"]["name"]
@@ -361,54 +358,52 @@ def main_plot(
     )  # calculate distance between quake and station in km
 
     # Calculate the Phase Arrivals
-    print("[LOG] Calculating phase arrivals...")
+    logger.debug("Calculating phase arrivals...")
     model = TauPyModel(model="iasp91")
     arrs = model.get_travel_times(depth, great_angle_deg)
-    print(
-        "[LOG]", arrs
-    )  # print the arrivals for reference when setting delay and duration
+    logger.debug(arrs)  # print the arrivals for reference when setting delay and duration
     no_arrs = len(arrs)  # the number of arrivals
 
     # calculate Rayleigh Wave arrival Time
     rayt = distance / 2.96
 
     # Create output traces
-    print("[LOG] Removing response from trace0...")
+    logger.debug("Removing response from trace0...")
     outdisp = trace0.remove_response(
         inventory=inv, pre_filt=filt, output="DISP", water_level=60, plot=False
     )  # convert to Disp
-    print("[LOG] Removing response from trace1...")
+    logger.debug("Removing response from trace1...")
     outvel = trace1.remove_response(
         inventory=inv, pre_filt=filt, output="VEL", water_level=60, plot=False
     )  # convert to Vel
-    print("[LOG] Removing response from trace2...")
+    logger.debug("Removing response from trace2...")
     outacc = trace2.remove_response(
         inventory=inv, pre_filt=filt, output="ACC", water_level=60, plot=False
     )  # convert to Acc
 
     # Calculate maximums
-    print("[LOG] calculating maximums...")
+    logger.debug("calculating maximums...")
     disp_max = outdisp[0].max()
     vel_max = outvel[0].max()
     acc_max = outacc[0].max()
     se_max = vel_max * vel_max / 2
 
     # Create background noise traces
-    print("[LOG] Removing response from bn0...")
+    logger.debug("Removing response from bn0...")
     bndisp = bn0.remove_response(
         inventory=inv, pre_filt=filt, output="DISP", water_level=60, plot=False
     )  # convert to Disp
-    print("[LOG] Removing response from bn1...")
+    logger.debug("Removing response from bn1...")
     bnvel = bn1.remove_response(
         inventory=inv, pre_filt=filt, output="VEL", water_level=60, plot=False
     )  # convert to Vel
-    print("[LOG] Removing response from bn2...")
+    logger.debug("Removing response from bn2...")
     bnacc = bn2.remove_response(
         inventory=inv, pre_filt=filt, output="ACC", water_level=60, plot=False
     )  # convert to Acc
 
     # Calculate background noise limits using standard deviation
-    print("[LOG] Calculating background noise limits...")
+    logger.debug("Calculating background noise limits...")
     bns = int(
         (bnend - bnstart) / 15
     )  # calculate the number of 15s samples in the background noise traces
@@ -672,8 +667,8 @@ def main_plot(
         sticks.append(
             uTC2time(eventTime, tbase + k * dt) - delay
         )  # build the array of time ticks for the spectrogram
-    print(f"[LOG] {tlabels=}")  # print the time labels - just a check for development
-    print(f"[LOG] {tticks=}")  # print the time ticks - just a check for development
+    logger.debug(f"{tlabels=}")  # print the time labels - just a check for development
+    logger.debug(f"{tticks=}")  # print the time ticks - just a check for development
     secax_x1 = ax1.secondary_xaxis("top")  # Displacement secondary axis
     secax_x1.set_xticks(ticks=tticks)
     secax_x1.set_xticklabels(tlabels, size="small", va="center_baseline")
@@ -773,7 +768,7 @@ def main_plot(
         x2, 0.03, str(no_arrs) + " arrivals total.", size="small", rotation=90
     )  # print number of arrivals
 
-    print(f"[LOG] {pphases=}")  # print the phases to be plotted on ray path diagram
+    logger.debug(f"{pphases=}")  # print the phases to be plotted on ray path diagram
 
     if all_phases or (rayt >= delay and rayt <= (delay + duration)):
         x2 = 0.905 - dx
@@ -807,13 +802,13 @@ def main_plot(
         fig.text(x2, 0.03, pkey[i], size="small", rotation=90)  # print the phase key
 
     # plot phase arrivals
-    print("[LOG] plot arrivals on displacement plot")
+    logger.debug("plot arrivals on displacement plot")
     plot_arrivals(ax1, arrs, delay, duration)  # plot arrivals on displacement plot
-    print("[LOG] plot arrivals on velocity plot")
+    logger.debug("plot arrivals on velocity plot")
     plot_arrivals(ax2, arrs, delay, duration)  # plot arrivals on velocity plot
-    print("[LOG] plot arrivals on acceleration plot")
+    logger.debug("plot arrivals on acceleration plot")
     plot_arrivals(ax3, arrs, delay, duration)  # plot arrivals on acceleration plot
-    print("[LOG] plot arrivals on energy plot")
+    logger.debug("plot arrivals on energy plot")
     plot_arrivals(ax6, arrs, delay, duration)  # plot arrivals on energy plot
 
     # set up some plot details
@@ -950,7 +945,7 @@ def main_plot(
 
     # save the final figure
     if save_file:
-        print(f"Saving {filename}...")
+        logger.info(f"Saving {filename}...")
         plt.savefig(filename)  # comment this line out till figure is final
     else:
         plt.show()
