@@ -12,3 +12,5 @@ matplotlib
 numpy
 cartopy
 loguru==0.7.0
+datasette==0.64.3
+geojson-to-sqlite==1.1.1

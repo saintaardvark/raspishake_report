@@ -114,6 +114,12 @@ rsync:
 today: rsync
 	find reports -type f -ctime -1 -exec xdg-open '{}' \;
 
+datasette: install_datasette_plugins
+	datasette my.db
+
+install_datasette_plugins:
+	datasette install datasette-cluster-map datasette-geojson-map
+
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
