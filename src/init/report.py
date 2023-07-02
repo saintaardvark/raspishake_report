@@ -169,6 +169,14 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     """
     Plot map
     """
+    if lat_s == 0 or lon_s == 0:
+        print("[LOG] Using configuration file for station data")
+        config = configparser.ConfigParser()
+        config.read("report.ini")
+        stn = config["station"]["name"]
+        lat_s = config.getfloat("station", "lat")  # station latitude
+        lon_s = config.getfloat("station", "lon")  # station longitude
+
     latC = (
         lat_e + lat_s
     ) / 2  # latitude 1/2 way between station and event/earthquake - may need adjusting!
