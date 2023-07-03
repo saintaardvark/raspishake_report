@@ -366,7 +366,9 @@ def main_plot(
     logger.debug("Calculating phase arrivals...")
     model = TauPyModel(model="iasp91")
     arrs = model.get_travel_times(depth, great_angle_deg)
-    logger.debug(arrs)  # print the arrivals for reference when setting delay and duration
+    logger.debug(
+        arrs
+    )  # print the arrivals for reference when setting delay and duration
     no_arrs = len(arrs)  # the number of arrivals
 
     # calculate Rayleigh Wave arrival Time
