@@ -9,6 +9,8 @@ import click
 from loguru import logger
 from obspy.core import UTCDateTime
 
+from util import generate_report_url
+
 USGS_FEEDS = {
     "LAST_DAY_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
     "LAST_DAY_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
@@ -17,6 +19,27 @@ USGS_FEEDS = {
     "LAST_WEEK_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
     "LAST_WEEK_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
 }
+
+UNWANTED_GEOJSON_COLS = [
+    "updated",
+    "tz",
+    "detail",
+    "felt",
+    "cdi",
+    "mmi",
+    "alert",
+    "status",
+    "ids",
+    "sources",
+    "types",
+    "nst",
+    "gap",
+    "magType",
+    "net",
+    "dmin",
+    "sig",
+    "rms",
+]
 
 
 @click.group()
@@ -59,39 +82,9 @@ def build_db(feed):
 
         eventTime = UTCDateTime(quake["properties"]["time"] / 1000)  # ms since epoch
         pfile = "All"
-        config = configparser.ConfigParser()
-        config.read("report.ini")
-        filename = (
-            config["DEFAULT"]["output_dir"]
-            + "/"
-            + f"{str(mag)}_Quake_{location}_{event_id}-"
-            + eventTime.strftime("%Y-%m-%dT%H:%M:%S_UTC-")
-            + pfile
-            + ".png"
-        )
-        quake["properties"][
-            "report_url"
-        ] = f"https://home.saintaardvarkthecarpeted.com/earthquake_data/{filename}"
-        for i in [
-            "updated",
-            "tz",
-            "detail",
-            "felt",
-            "cdi",
-            "mmi",
-            "alert",
-            "status",
-            "ids",
-            "sources",
-            "types",
-            "nst",
-            "gap",
-            "magType",
-            "net",
-            "dmin",
-            "sig",
-            "rms",
-        ]:
+        quake["properties"]["report_url"] = generate_report_url(event_id, eventTime)
+        logger.debug(f"URL: {quake['properties']['report_url']}")
+        for i in UNWANTED_GEOJSON_COLS:
             quake["properties"].pop(i, None)
 
     local_filename = feed_url.split("/")[-1]
