@@ -64,7 +64,30 @@ def build_db(feed):
             + pfile
             + ".png"
         )
-        quake["properties"]["report_url"] = f"https://home.saintaardvarkthecarpeted.com/earthquake_data/{filename}"
+        quake["properties"][
+            "report_url"
+        ] = f"https://home.saintaardvarkthecarpeted.com/earthquake_data/{filename}"
+        for i in [
+            "updated",
+            "tz",
+            "detail",
+            "felt",
+            "cdi",
+            "mmi",
+            "alert",
+            "status",
+            "ids",
+            "sources",
+            "types",
+            "nst",
+            "gap",
+            "magType",
+            "net",
+            "dmin",
+            "sig",
+            "rms",
+        ]:
+            quake["properties"].pop(i, None)
 
     local_filename = feed_url.split("/")[-1]
     with open(local_filename, "w") as f:
