@@ -61,7 +61,7 @@ def generate_filename(event_id: str, phase: str = "") -> str:
 
     event_id: ID of the event in question
     """
-    if phase is not "":
+    if phase != "":
         return f"{event_id}-{phase}.png"
 
     return f"{event_id}.png"
