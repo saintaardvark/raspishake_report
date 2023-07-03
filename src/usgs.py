@@ -127,7 +127,7 @@ def query(feed):
         location = quake["properties"]["place"]
         url = quake["properties"]["url"]
         print(
-            f"./src/init/report.py main_plot "
+            f"./src/report.py main_plot "
             + f"--lat_e {lat_e} "
             + f"--lon_e {lon_e} "
             + f"--depth {depth} "
