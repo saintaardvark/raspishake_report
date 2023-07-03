@@ -3,6 +3,8 @@
 cd /backup/batch_jobs/raspishake_report/
 source .venv/bin/activate
 
+make build_db
+
 TD=$(mktemp -d)
 TEMPSCRIPT=${TD}/cron.sh
 echo "#!/bin/bash -x" > $TEMPSCRIPT
