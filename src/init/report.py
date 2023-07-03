@@ -37,15 +37,20 @@ def get_inv(cache_dir="", stn="", client=None):
     if os.path.exists(cache_file):
         logger.debug("Reading in cached station response data...")
         return read_inventory(cache_file, format="STATIONXML")
-    else:
-        logger.debug("Cached station response data not found -- will download & save for next time")
-        inv = client.get_stations(network="AM", station=stn, level="RESP")
-        try:
-            os.makedirs(cache_dir, exist_ok=True)
-            inv.write(cache_file, format="STATIONXML")
-        except Exception as exc:
-            logger.warn("Can't save response data for next time, continuing with what I've got: {exc}")
-        return inv
+
+    logger.debug(
+        "Cached station response data not found -- will download & save for next time"
+    )
+    inv = client.get_stations(network="AM", station=stn, level="RESP")
+    try:
+        os.makedirs(cache_dir, exist_ok=True)
+        inv.write(cache_file, format="STATIONXML")
+    except Exception as exc:
+        logger.warn(
+            "Can't save response data for next time, continuing with what I've got: {exc}"
+        )
+
+    return inv
 
 
 def plot_arrivals(ax, arrs, delay, duration):
