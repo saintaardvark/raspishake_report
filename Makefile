@@ -77,7 +77,7 @@ test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 
 plot_map:
-	./src/init/report.py \
+	./src/report.py \
 		plot_map \
 		--lat_e 38.743 \
 		--lon_e -122.722 \
@@ -85,7 +85,7 @@ plot_map:
 		--lon_s -123.021
 
 plot:
-	./src/init/report.py \
+	./src/report.py \
 		main_plot \
 		--bandpass_filter=local \
 		--lat_e 38.743 \
@@ -96,7 +96,7 @@ plot:
 		--event_id nc73899481 \
 		--location "Anderson, California"
 save_plot:
-	./src/init/report.py \
+	./src/report.py \
 		main_plot \
 		--bandpass_filter=local \
 		--lat_e 38.743 \
@@ -121,8 +121,8 @@ install_datasette_plugins:
 	datasette install datasette-cluster-map datasette-geojson-map
 
 build_db:
-	./src/init/usgs.py build_db
-	geojson-to-sqlite --alter my.db features 4.5_day.geojson
+	./src/usgs.py build_db --feed LAST_DAY_OVER_2_POINT_5
+	geojson-to-sqlite --alter my.db features 2.5_day.geojson
 
 #################################################################################
 # PROJECT RULES                                                                 #
