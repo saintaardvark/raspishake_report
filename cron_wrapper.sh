@@ -6,7 +6,7 @@ source .venv/bin/activate
 TD=$(mktemp -d)
 TEMPSCRIPT=${TD}/cron.sh
 echo "#!/bin/bash -x" > $TEMPSCRIPT
-./src/init/usgs.py >> $TEMPSCRIPT
+./src/usgs.py query >> $TEMPSCRIPT
 
 chmod 755 $TEMPSCRIPT
 $TEMPSCRIPT
