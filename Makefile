@@ -118,11 +118,11 @@ datasette: install_datasette_plugins build_db
 	datasette my.db
 
 install_datasette_plugins:
-	datasette install datasette-cluster-map datasette-geojson-map
+	datasette install datasette-cluster-map datasette-geojson-map datasette-render-timestamps
 
 build_db:
 	./src/usgs.py build_db --feed LAST_DAY_OVER_2_POINT_5
-	geojson-to-sqlite --alter my.db features 2.5_day.geojson
+	geojson-to-sqlite --alter my.db features 2.5_day.geojsonxo
 
 #################################################################################
 # PROJECT RULES                                                                 #

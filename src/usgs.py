@@ -87,6 +87,8 @@ def build_db(feed):
         for i in UNWANTED_GEOJSON_COLS:
             quake["properties"].pop(i, None)
 
+        quake["properties"]["time"] = int(quake["properties"]["time"] / 1000)
+
     local_filename = feed_url.split("/")[-1]
     with open(local_filename, "w") as f:
         f.write(json.dumps(quakes, indent=2))
