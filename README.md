@@ -1,61 +1,38 @@
-raspishake_report
-==============================
+# raspishake_report
 
-Raspberry Shake Reports
+Raspberry Shake Reports!
 
-Requirements:
+## How it works
 
-- libgeos-devel (Debian), geos-devel (Fedora)
+- `src/usgs.py` will query the USGS feed
+  - `usgs.py query` will fetch the feed, then generate shell commands to generate reports
 
-Project Organization
-------------
+  - `usgs.py build_db` will fetch the feed, then transform the geojson
+    for local use by datasette & save it
+    & save it
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+	- it's now ready for `geojson-to-sqlite --alter my.db features
+      2.5_day.geojson`
 
+- `src/report.py` actually generates the reports
 
---------
+- `report.ini` contains a few config items for these scripts...too few
+
+- `cron_wrapper.sh` attempts to tie it all together
+
+## Overall flow
+
+This is what's in cron_wrapper.sh:
+
+- `make build_db` should generate `local.db`.  Datasette can now run.
+
+- `usgs.py query` should fetch the USGS feed, then spit out shell
+  commands to generate reports.
+
+- That output is captured in a temporary shell script & then run.
+
+- This should now create reports in the reports dir.  Datasette's
+  `report_url` column should now work.
+
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
