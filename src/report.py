@@ -78,6 +78,25 @@ def generate_report_dir(output_dir: str, eventTime) -> str:
     """
     return output_dir + "/" + eventTime.strftime("%Y/%m/%d")
 
+def generate_html(report_dir, event_id, report_img):
+    """
+    Generate HTML file for serving image.
+    """
+    os.makedirs(report_dir, exist_ok=True)
+    html_file = f"{event_id}.html"
+    with open(f"{report_dir}/{html_file}", "w") as f:
+        f.write(f"""
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <title>{report_img}</title>
+          </head>
+          <body>
+            <img src="{report_img}">
+          </body>
+        </html>
+        """)
 
 def plot_arrivals(ax, arrs, delay, duration):
     """
@@ -977,7 +996,8 @@ def main_plot(
         os.makedirs(report_dir, exist_ok=True)
         plt.savefig(
             f"{report_dir}/{filename}"
-        )  # comment this line out till figure is final
+        )
+        generate_html(report_dir, event_id, filename)
     else:
         plt.show()
 
