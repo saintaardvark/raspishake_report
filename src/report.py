@@ -53,6 +53,32 @@ def get_inv(cache_dir="", stn="", client=None):
     return inv
 
 
+def generate_filename(event_id: str, phase: str = "") -> str:
+    """
+    Generate a filename for saving.
+
+    Parameters:
+
+    event_id: ID of the event in question
+    """
+    if phase is not "":
+        return f"{event_id}-{phase}.png"
+
+    return f"{event_id}.png"
+
+
+def generate_report_dir(output_dir: str, eventTime) -> str:
+    """
+    Generate path for the report -- just the directory,
+    not the filename itself.  No trailing slash.
+
+    Parameters:
+    config: config dictionary
+    event_date: date of the event
+    """
+    return output_dir + "/" + eventTime.strftime("%Y/%m/%d")
+
+
 def plot_arrivals(ax, arrs, delay, duration):
     """
     Plot arrivals
@@ -935,25 +961,23 @@ def main_plot(
 
     # create phase identifier for filename
     if all_phases:
-        pfile = "All"
+        phases = "all_phases"
     else:
-        pfile = ""
+        phases = ""
 
     # print filename on bottom left corner of diagram
-    filename = (
-        config["DEFAULT"]["output_dir"]
-        + "/"
-        + f"{str(mag)}_Quake_{location}_{event_id}-"
-        + eventTime.strftime("%Y-%m-%dT%H:%M:%S_UTC-")
-        + pfile
-        + ".png"
-    )
-    fig.text(0.02, 0.01, filename, size="x-small")
+    filename = generate_filename(event_id, phases)
+    report_dir = generate_report_dir(config["DEFAULT"]["output_dir"], eventTime)
+
+    fig.text(0.02, 0.01, f"{report_dir}/{filename}", size="x-small")
 
     # save the final figure
     if save_file:
-        logger.info(f"Saving {filename}...")
-        plt.savefig(filename)  # comment this line out till figure is final
+        logger.info(f"Saving {report_dir}...")
+        os.makedirs(report_dir, exist_ok=True)
+        plt.savefig(
+            f"{report_dir}/{filename}"
+        )  # comment this line out till figure is final
     else:
         plt.show()
 
