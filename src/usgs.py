@@ -6,6 +6,7 @@ import json
 import requests
 
 import click
+from loguru import logger
 from obspy.core import UTCDateTime
 
 USGS_FEEDS = {
@@ -44,14 +45,18 @@ def build_db(feed):
     except IndexError:
         print("Invalid choice for feed!  Valid options: ")
         print(", ".join(list(USGS_FEEDS.keys())))
+
+    logger.debug(f"Getting {feed_url}...")
     resp = requests.get(feed_url)
     quakes = resp.json()
-    print(type(quakes))
+    logger.debug(f"Got {len(quakes['features'])} quakes")
     for quake in quakes["features"]:
         # TODO: This is *huge* code duplication
+        event_id = quake["properties"]["code"]
+        logger.debug(f"Got {event_id=}")
         mag = quake["properties"]["mag"]
         location = quake["properties"]["place"]
-        event_id = quake["properties"]["code"]
+
         eventTime = UTCDateTime(quake["properties"]["time"] / 1000)  # ms since epoch
         pfile = "All"
         config = configparser.ConfigParser()
