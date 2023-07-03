@@ -19,6 +19,7 @@ from obspy.signal import filter
 from obspy.taup import TauPyModel
 from obspy import read, read_inventory
 
+from util import generate_html_filename, generate_report_dir
 
 @click.group()
 def report():
@@ -67,23 +68,12 @@ def generate_filename(event_id: str, phase: str = "") -> str:
     return f"{event_id}.png"
 
 
-def generate_report_dir(output_dir: str, eventTime) -> str:
-    """
-    Generate path for the report -- just the directory,
-    not the filename itself.  No trailing slash.
-
-    Parameters:
-    config: config dictionary
-    event_date: date of the event
-    """
-    return output_dir + "/" + eventTime.strftime("%Y/%m/%d")
-
 def generate_html(report_dir, event_id, report_img):
     """
     Generate HTML file for serving image.
     """
     os.makedirs(report_dir, exist_ok=True)
-    html_file = f"{event_id}.html"
+    html_file = generate_html_filename(event_id)
     with open(f"{report_dir}/{html_file}", "w") as f:
         f.write(f"""
         <!doctype html>
