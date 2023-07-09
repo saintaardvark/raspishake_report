@@ -456,7 +456,7 @@ def main_plot(
     ch = "EHZ"  # ENx = accelerometer channels; EHx or SHZ = geophone channels
 
     # get waveform and copy it for independent removal of instrument response
-    print("[LOG] Getting waveforms for event...")
+    logger.info(f"Getting waveforms for event: {stn=} {ch=} {start=} {end=}...")
     trace0 = rs.get_waveforms("AM", stn, "00", ch, start, end)
     trace0.merge(
         method=0, fill_value="latest"
@@ -466,7 +466,7 @@ def main_plot(
     trace2 = trace0.copy()
 
     # get waveform for background noise and copy it for independent removal of instrument response
-    print("[LOG] Getting waveforms for background noise...")
+    logger.info("Getting waveforms for background noise...")
     bn0 = rs.get_waveforms("AM", stn, "00", ch, bnstart, bnend)
     bn0.merge(
         method=0, fill_value="latest"
