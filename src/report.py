@@ -21,6 +21,7 @@ from obspy import read, read_inventory
 
 from util import generate_html_filename, generate_report_dir
 
+
 @click.group()
 def report():
     """
@@ -111,7 +112,8 @@ def generate_html(report_dir, event_id, report_img):
     os.makedirs(report_dir, exist_ok=True)
     html_file = generate_html_filename(event_id)
     with open(f"{report_dir}/{html_file}", "w") as f:
-        f.write(f"""
+        f.write(
+            f"""
         <!doctype html>
         <html lang="en">
           <head>
@@ -122,7 +124,9 @@ def generate_html(report_dir, event_id, report_img):
             <img src="{report_img}">
           </body>
         </html>
-        """)
+        """
+        )
+
 
 def plot_arrivals(ax, arrs, delay, duration):
     """
@@ -368,6 +372,8 @@ def main_plot(
     location,
     save_file,
     all_phases,
+    start_time_strategy,
+    delay,
 ):
     """
     Main entry point
@@ -1044,9 +1050,7 @@ def main_plot(
     if save_file:
         logger.info(f"Saving {report_dir}...")
         os.makedirs(report_dir, exist_ok=True)
-        plt.savefig(
-            f"{report_dir}/{filename}"
-        )
+        plt.savefig(f"{report_dir}/{filename}")
         generate_html(report_dir, event_id, filename)
     else:
         plt.show()
