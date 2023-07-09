@@ -29,6 +29,42 @@ def report():
     pass
 
 
+def get_start_time(
+    config=None, start_time_strategy=None, delay=None, eventTime=None, arrs=None
+):
+    """
+    Get start time based on config, start time strategy, and other stuff
+    """
+    if delay == None:
+        try:
+            delay = config.getint(
+                "DEFAULT", "delay"
+            )  # delay the start of the plot from the event **** Enter data****
+        except configparser.NoOptionError:
+            logger.warning("No delay set, going with 60 seconds")
+            delay = 60
+
+    if start_time_strategy is None:
+        try:
+            start_time_strategy = config.get("DEFAULT", "start_time_strategy")
+        except configparser.NoOptionError:
+            logger.warning(
+                "No start time strategy set, going with start_seconds_before_first_arrival"
+            )
+            start_time_strategy = "start_seconds_before_first_arrival"
+
+    if start_time_strategy == "start_seconds_before_first_arrival":
+        return arrs[0].time - delay
+    elif start_time_strategy == "start_seconds_before_event_time":
+        return eventTime - delay
+    elif start_time_strategy == "start_seconds_after_event_time":
+        return eventTime + delay
+    else:
+        raise ValueError(
+            f"Don't know what to do with start_time_strategy {start_time_strategy}"
+        )
+
+
 def get_inv(cache_dir="", stn="", client=None):
     """Get response data for station.
 
@@ -349,19 +385,52 @@ def main_plot(
     # enter event data
     eventTime = UTCDateTime(time_e)
     # set plot start time strategy
-    if delay == None:
-        delay = config.getint(
-            "DEFAULT", "delay"
-        )  # delay the start of the plot from the event **** Enter data****
-    duration = config.getint("DEFAULT", "plot_duration")
-    if start_time_strategy is None:
-        start_time_strategy = config.read_string("DEFAULT", "start_time_strategy")
 
+    # calculate great circle angle of separation
+    # convert angles to radians
+    latSrad = math.radians(latS)
+    lonSrad = math.radians(lonS)
+    latErad = math.radians(lat_e)
+    lonErad = math.radians(lon_e)
+
+    if lonSrad > lonErad:
+        lon_diff = lonSrad - lonErad
+    else:
+        lon_diff = lonErad - lonSrad
+
+    great_angle_rad = math.acos(
+        math.sin(latErad) * math.sin(latSrad)
+        + math.cos(latErad) * math.cos(latSrad) * math.cos(lon_diff)
+    )
+    great_angle_deg = math.degrees(
+        great_angle_rad
+    )  # great circle angle between quake and station
+    distance = (
+        great_angle_rad * 12742 / 2
+    )  # calculate distance between quake and station in km
+
+    logger.debug("Calculating phase arrivals...")
+    model = TauPyModel(model="iasp91")
+    arrs = model.get_travel_times(depth, great_angle_deg)
+    logger.debug(
+        arrs
+    )  # print the arrivals for reference when setting delay and duration
+    no_arrs = len(arrs)  # the number of arrivals
+
+    # calculate Rayleigh Wave arrival Time
+    rayt = distance / 2.96
 
     # TODO: Turn this into something like "first wave arrival time - 30 seconds"
-    start = eventTime + delay  # calculate the plot start time from the event and delay
-    end = start + duration  # calculate the end time from the start and duration
+    start = get_start_time(
+        config=config,
+        start_time_strategy=start_time_strategy,
+        delay=delay,
+        eventTime=eventTime,
+        arrs=arrs,
+    )
 
+    duration = config.getint("DEFAULT", "plot_duration")
+    end = start + duration  # calculate the end time from the start and duration
     #
     bnstart = eventTime - config.getint("DEFAULT", "bn_start")
     bnend = eventTime + config.getint("DEFAULT", "bn_end")
@@ -399,41 +468,6 @@ def main_plot(
     bn0.detrend(type="demean")  # demean the data
     bn1 = bn0.copy()
     bn2 = bn0.copy()
-
-    # calculate great circle angle of separation
-    # convert angles to radians
-    latSrad = math.radians(latS)
-    lonSrad = math.radians(lonS)
-    latErad = math.radians(lat_e)
-    lonErad = math.radians(lon_e)
-
-    if lonSrad > lonErad:
-        lon_diff = lonSrad - lonErad
-    else:
-        lon_diff = lonErad - lonSrad
-
-    great_angle_rad = math.acos(
-        math.sin(latErad) * math.sin(latSrad)
-        + math.cos(latErad) * math.cos(latSrad) * math.cos(lon_diff)
-    )
-    great_angle_deg = math.degrees(
-        great_angle_rad
-    )  # great circle angle between quake and station
-    distance = (
-        great_angle_rad * 12742 / 2
-    )  # calculate distance between quake and station in km
-
-    # Calculate the Phase Arrivals
-    logger.debug("Calculating phase arrivals...")
-    model = TauPyModel(model="iasp91")
-    arrs = model.get_travel_times(depth, great_angle_deg)
-    logger.debug(
-        arrs
-    )  # print the arrivals for reference when setting delay and duration
-    no_arrs = len(arrs)  # the number of arrivals
-
-    # calculate Rayleigh Wave arrival Time
-    rayt = distance / 2.96
 
     # Create output traces
     logger.debug("Removing response from trace0...")
