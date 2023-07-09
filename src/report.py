@@ -30,11 +30,11 @@ def report():
     pass
 
 
-def get_start_time(
-    config=None, start_time_strategy=None, delay=None, eventTime=None, arrs=None
-):
+# TODO: This should be part of a more generalized "get config" function
+def get_delay(delay, config) -> int:
     """
-    Get start time based on config, start time strategy, and other stuff
+    Get delay by checking the delay value (assumed to be from click argument)
+    and the config.
     """
     if delay == None:
         try:
@@ -44,7 +44,16 @@ def get_start_time(
         except configparser.NoOptionError:
             logger.warning("No delay set, going with 60 seconds")
             delay = 60
+    return delay
 
+
+# TODO: This should be part of a more generalized "get config" function
+def get_start_time_strategy(start_time_strategy, config) -> str:
+    """
+    Get start time strategy by checking the start_time_strategy value
+    (assumed to be from click argument) and the config
+
+    """
     if start_time_strategy is None:
         try:
             start_time_strategy = config.get("DEFAULT", "start_time_strategy")
@@ -53,7 +62,13 @@ def get_start_time(
                 "No start time strategy set, going with start_seconds_before_first_arrival"
             )
             start_time_strategy = "start_seconds_before_first_arrival"
+    return start_time_strategy
 
+
+def get_start_time(start_time_strategy=None, delay=None, eventTime=None, arrs=None):
+    """
+    Get start time based on config, start time strategy, and other stuff
+    """
     logger.debug(f"Start time strategy: {start_time_strategy}")
     logger.debug(f"Event time: {eventTime}")
     logger.debug(f"First arrival: {arrs[0].time}")
@@ -431,9 +446,10 @@ def main_plot(
     # calculate Rayleigh Wave arrival Time
     rayt = distance / 2.96
 
+    delay=get_delay(delay, config)
+    start_time_strategy = get_start_time_strategy(start_time_strategy, config)
     # TODO: Turn this into something like "first wave arrival time - 30 seconds"
     start = get_start_time(
-        config=config,
         start_time_strategy=start_time_strategy,
         delay=delay,
         eventTime=eventTime,
