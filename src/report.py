@@ -54,8 +54,13 @@ def get_start_time(
             )
             start_time_strategy = "start_seconds_before_first_arrival"
 
+    logger.debug(f"Start time strategy: {start_time_strategy}")
+    logger.debug(f"Event time: {eventTime}")
+    logger.debug(f"First arrival: {arrs[0].time}")
+    logger.debug(f"Delay: {delay}")
+
     if start_time_strategy == "start_seconds_before_first_arrival":
-        return arrs[0].time - delay
+        return eventTime + arrs[0].time - delay
     elif start_time_strategy == "start_seconds_before_event_time":
         return eventTime - delay
     elif start_time_strategy == "start_seconds_after_event_time":
@@ -434,7 +439,7 @@ def main_plot(
         eventTime=eventTime,
         arrs=arrs,
     )
-
+    logger.debug(f"Start: {start} {type(start)}")
     duration = config.getint("DEFAULT", "plot_duration")
     end = start + duration  # calculate the end time from the start and duration
     #
