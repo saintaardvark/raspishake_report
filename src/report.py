@@ -300,6 +300,27 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     default=True,
     help="Plot all phases; otherwise only those in the plotted time window are plotted",
 )
+@click.option(
+    "--start_seconds_before_first_arrival",
+    "start_time_strategy",
+    help="Start the plot [arg] seconds before the arrival of the first wave",
+)
+@click.option(
+    "--start_seconds_before_event_time",
+    "start_time_strategy",
+    help="Start the plot [arg] seconds before the event time",
+)
+@click.option(
+    "--start_seconds_after_event_time",
+    "start_time_strategy",
+    help="Start the plot [arg] seconds after the event time",
+)
+@click.option(
+    "--delay",
+    nargs=1,
+    type=int,
+    help="Seconds to start plot before arrival/before event time/after event time",
+)
 def main_plot(
     bandpass_filter,
     lat_e,
@@ -327,12 +348,17 @@ def main_plot(
 
     # enter event data
     eventTime = UTCDateTime(time_e)
-    # set plot start time
-    delay = config.getint(
-        "DEFAULT", "delay"
-    )  # delay the start of the plot from the event **** Enter data****
+    # set plot start time strategy
+    if delay == None:
+        delay = config.getint(
+            "DEFAULT", "delay"
+        )  # delay the start of the plot from the event **** Enter data****
     duration = config.getint("DEFAULT", "plot_duration")
+    if start_time_strategy is None:
+        start_time_strategy = config.read_string("DEFAULT", "start_time_strategy")
 
+
+    # TODO: Turn this into something like "first wave arrival time - 30 seconds"
     start = eventTime + delay  # calculate the plot start time from the event and delay
     end = start + duration  # calculate the end time from the start and duration
 

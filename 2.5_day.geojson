@@ -1,0 +1,1148 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated": 1688421193000,
+    "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
+    "title": "USGS Magnitude 2.5+ Earthquakes, Past Day",
+    "status": 200,
+    "api": "1.10.3",
+    "count": 49
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.5,
+        "place": "2km ESE of Redlands, CA",
+        "time": 1688419585,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci40502928",
+        "tsunami": 0,
+        "code": "40502928",
+        "type": "earthquake",
+        "title": "M 2.5 - 2km ESE of Redlands, CA",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/40502928.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.1663333,
+          34.0478333,
+          10.42
+        ]
+      },
+      "id": "ci40502928"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.8,
+        "place": "147 km WNW of Sola, Vanuatu",
+        "time": 1688418879,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpy1",
+        "tsunami": 0,
+        "code": "6000kpy1",
+        "type": "earthquake",
+        "title": "M 4.8 - 147 km WNW of Sola, Vanuatu",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpy1.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.2652,
+          -13.4275,
+          10
+        ]
+      },
+      "id": "us6000kpy1"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 5.7,
+        "place": "157 km WNW of Sola, Vanuatu",
+        "time": 1688417866,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpxx",
+        "tsunami": 0,
+        "code": "6000kpxx",
+        "type": "earthquake",
+        "title": "M 5.7 - 157 km WNW of Sola, Vanuatu",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpxx.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.2257,
+          -13.2915,
+          10
+        ]
+      },
+      "id": "us6000kpxx"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.04,
+        "place": "3 km SSW of P\u0101hala, Hawaii",
+        "time": 1688416343,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/hv73469402",
+        "tsunami": 0,
+        "code": "73469402",
+        "type": "earthquake",
+        "title": "M 3.0 - 3 km SSW of P\u0101hala, Hawaii",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/73469402.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.487333333333,
+          19.1721666666667,
+          35.15
+        ]
+      },
+      "id": "hv73469402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.7,
+        "place": "California-Nevada border region",
+        "time": 1688414992,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nn00862098",
+        "tsunami": 0,
+        "code": "00862098",
+        "type": "earthquake",
+        "title": "M 2.7 - California-Nevada border region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/00862098.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.147,
+          38.5414,
+          7.4
+        ]
+      },
+      "id": "nn00862098"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 5.4,
+        "place": "50 km NE of Xa\u00e7maz, Azerbaijan",
+        "time": 1688414510,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpxj",
+        "tsunami": 0,
+        "code": "6000kpxj",
+        "type": "earthquake",
+        "title": "M 5.4 - 50 km NE of Xa\u00e7maz, Azerbaijan",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpxj.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          49.2837,
+          41.746,
+          59.743
+        ]
+      },
+      "id": "us6000kpxj"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.49,
+        "place": "4 km WSW of La Parguera, Puerto Rico",
+        "time": 1688412403,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416153",
+        "tsunami": 0,
+        "code": "71416153",
+        "type": "earthquake",
+        "title": "M 2.5 - 4 km WSW of La Parguera, Puerto Rico",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416153.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0806666666667,
+          17.9535,
+          6.77
+        ]
+      },
+      "id": "pr71416153"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.96,
+        "place": "3 km WSW of La Parguera, Puerto Rico",
+        "time": 1688412214,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416138",
+        "tsunami": 0,
+        "code": "71416138",
+        "type": "earthquake",
+        "title": "M 3.0 - 3 km WSW of La Parguera, Puerto Rico",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416138.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0776666666667,
+          17.9596666666667,
+          7.48
+        ]
+      },
+      "id": "pr71416138"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.6,
+        "place": "82 km SW of Teluk Dalam, Indonesia",
+        "time": 1688410260,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpx2",
+        "tsunami": 0,
+        "code": "6000kpx2",
+        "type": "earthquake",
+        "title": "M 4.6 - 82 km SW of Teluk Dalam, Indonesia",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpx2.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.271,
+          0.0575,
+          10
+        ]
+      },
+      "id": "us6000kpx2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.8,
+        "place": "Fiji region",
+        "time": 1688407496,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpx1",
+        "tsunami": 0,
+        "code": "6000kpx1",
+        "type": "earthquake",
+        "title": "M 4.8 - Fiji region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpx1.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -177.0942,
+          -16.9641,
+          10
+        ]
+      },
+      "id": "us6000kpx1"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.87,
+        "place": "115km W of Petrolia, CA",
+        "time": 1688407019,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73908361",
+        "tsunami": 0,
+        "code": "73908361",
+        "type": "earthquake",
+        "title": "M 3.9 - 115km W of Petrolia, CA",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/73908361.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -125.6436667,
+          40.4,
+          26.3
+        ]
+      },
+      "id": "nc73908361"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 5.1,
+        "place": "south of Tonga",
+        "time": 1688405187,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpwp",
+        "tsunami": 0,
+        "code": "6000kpwp",
+        "type": "earthquake",
+        "title": "M 5.1 - south of Tonga",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpwp.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -175.5777,
+          -24.0396,
+          21.41
+        ]
+      },
+      "id": "us6000kpwp"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.55,
+        "place": "Puerto Rico region",
+        "time": 1688403970,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416108",
+        "tsunami": 0,
+        "code": "71416108",
+        "type": "earthquake",
+        "title": "M 2.6 - Puerto Rico region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416108.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0681666666667,
+          17.9743333333333,
+          7.13
+        ]
+      },
+      "id": "pr71416108"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.1,
+        "place": "123 km ESE of Akutan, Alaska",
+        "time": 1688398945,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpv5",
+        "tsunami": 0,
+        "code": "6000kpv5",
+        "type": "earthquake",
+        "title": "M 4.1 - 123 km ESE of Akutan, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpv5.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -163.9813,
+          53.7869,
+          43.777
+        ]
+      },
+      "id": "us6000kpv5"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.6,
+        "place": "2 km SSW of Eagle River, Alaska",
+        "time": 1688395649,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238gji26s",
+        "tsunami": 1,
+        "code": "0238gji26s",
+        "type": "earthquake",
+        "title": "M 4.6 - 2 km SSW of Eagle River, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238gji26s.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -149.5885,
+          61.2982,
+          28.2
+        ]
+      },
+      "id": "ak0238gji26s"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.88,
+        "place": "Puerto Rico region",
+        "time": 1688392896,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416093",
+        "tsunami": 0,
+        "code": "71416093",
+        "type": "earthquake",
+        "title": "M 2.9 - Puerto Rico region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416093.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.065,
+          17.9641666666667,
+          6.66
+        ]
+      },
+      "id": "pr71416093"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.06,
+        "place": "2 km WNW of La Parguera, Puerto Rico",
+        "time": 1688390401,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416073",
+        "tsunami": 0,
+        "code": "71416073",
+        "type": "earthquake",
+        "title": "M 3.1 - 2 km WNW of La Parguera, Puerto Rico",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416073.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0656666666667,
+          17.9795,
+          6.59
+        ]
+      },
+      "id": "pr71416073"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.21,
+        "place": "2 km NNW of La Parguera, Puerto Rico",
+        "time": 1688390273,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71416063",
+        "tsunami": 0,
+        "code": "71416063",
+        "type": "earthquake",
+        "title": "M 3.2 - 2 km NNW of La Parguera, Puerto Rico",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71416063.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0535,
+          17.9946666666667,
+          6.64
+        ]
+      },
+      "id": "pr71416063"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.55,
+        "place": "2 km WSW of La Parguera, Puerto Rico",
+        "time": 1688388555,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr2023184004",
+        "tsunami": 0,
+        "code": "2023184004",
+        "type": "earthquake",
+        "title": "M 2.6 - 2 km WSW of La Parguera, Puerto Rico",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/2023184004.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.069,
+          17.9643,
+          6
+        ]
+      },
+      "id": "pr2023184004"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.18,
+        "place": "Puerto Rico region",
+        "time": 1688388274,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr2023184002",
+        "tsunami": 0,
+        "code": "2023184002",
+        "type": "earthquake",
+        "title": "M 4.2 - Puerto Rico region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/2023184002.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.0815,
+          17.9478,
+          7
+        ]
+      },
+      "id": "pr2023184002"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.7,
+        "place": "135 km SSW of Abepura, Indonesia",
+        "time": 1688388005,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpts",
+        "tsunami": 0,
+        "code": "6000kpts",
+        "type": "earthquake",
+        "title": "M 4.7 - 135 km SSW of Abepura, Indonesia",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpts.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.1678,
+          -3.7258,
+          10
+        ]
+      },
+      "id": "us6000kpts"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.4,
+        "place": "64 km WNW of Happy Valley, Alaska",
+        "time": 1688384346,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238ghnzxp",
+        "tsunami": 0,
+        "code": "0238ghnzxp",
+        "type": "earthquake",
+        "title": "M 3.4 - 64 km WNW of Happy Valley, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238ghnzxp.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -152.8486,
+          60.0827,
+          111.9
+        ]
+      },
+      "id": "ak0238ghnzxp"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 5.3,
+        "place": "southeast of the Loyalty Islands",
+        "time": 1688383596,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpth",
+        "tsunami": 0,
+        "code": "6000kpth",
+        "type": "earthquake",
+        "title": "M 5.3 - southeast of the Loyalty Islands",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpth.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          169.6425,
+          -21.5128,
+          21.677
+        ]
+      },
+      "id": "us6000kpth"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.4,
+        "place": "64 km SE of Denali National Park, Alaska",
+        "time": 1688383164,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238ghjqxs",
+        "tsunami": 0,
+        "code": "0238ghjqxs",
+        "type": "earthquake",
+        "title": "M 3.4 - 64 km SE of Denali National Park, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238ghjqxs.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -150.8821,
+          63.0972,
+          117.4
+        ]
+      },
+      "id": "ak0238ghjqxs"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3,
+        "place": "northern Alaska",
+        "time": 1688380866,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238gh2zsa",
+        "tsunami": 0,
+        "code": "0238gh2zsa",
+        "type": "earthquake",
+        "title": "M 3.0 - northern Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238gh2zsa.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -143.3675,
+          69.5763,
+          82.9
+        ]
+      },
+      "id": "ak0238gh2zsa"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.5,
+        "place": "Off the coast of Antofagasta, Chile",
+        "time": 1688380263,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpta",
+        "tsunami": 0,
+        "code": "6000kpta",
+        "type": "earthquake",
+        "title": "M 4.5 - Off the coast of Antofagasta, Chile",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpta.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.5704,
+          -24.0015,
+          25.277
+        ]
+      },
+      "id": "us6000kpta"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.8,
+        "place": "Mindanao, Philippines",
+        "time": 1688379627,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpt9",
+        "tsunami": 0,
+        "code": "6000kpt9",
+        "type": "earthquake",
+        "title": "M 4.8 - Mindanao, Philippines",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpt9.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.4111,
+          5.8655,
+          47.779
+        ]
+      },
+      "id": "us6000kpt9"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.8,
+        "place": "Volcano Islands, Japan region",
+        "time": 1688377077,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpt7",
+        "tsunami": 0,
+        "code": "6000kpt7",
+        "type": "earthquake",
+        "title": "M 4.8 - Volcano Islands, Japan region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpt7.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.0109,
+          24.0683,
+          17.313
+        ]
+      },
+      "id": "us6000kpt7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.9,
+        "place": "283 km SSW of \u2018Ohonua, Tonga",
+        "time": 1688371378,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpsu",
+        "tsunami": 0,
+        "code": "6000kpsu",
+        "type": "earthquake",
+        "title": "M 4.9 - 283 km SSW of \u2018Ohonua, Tonga",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpsu.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -175.7307,
+          -23.7992,
+          35.786
+        ]
+      },
+      "id": "us6000kpsu"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.4,
+        "place": "171 km SSW of San Pedro de Atacama, Chile",
+        "time": 1688370217,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpsr",
+        "tsunami": 0,
+        "code": "6000kpsr",
+        "type": "earthquake",
+        "title": "M 4.4 - 171 km SSW of San Pedro de Atacama, Chile",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpsr.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.8633,
+          -24.3316,
+          101.746
+        ]
+      },
+      "id": "us6000kpsr"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.5,
+        "place": "109 km SE of Sarangani, Philippines",
+        "time": 1688365815,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpss",
+        "tsunami": 0,
+        "code": "6000kpss",
+        "type": "earthquake",
+        "title": "M 4.5 - 109 km SE of Sarangani, Philippines",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpss.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.0349,
+          4.5929,
+          135.205
+        ]
+      },
+      "id": "us6000kpss"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.61,
+        "place": "Puerto Rico region",
+        "time": 1688362559,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71415998",
+        "tsunami": 0,
+        "code": "71415998",
+        "type": "earthquake",
+        "title": "M 2.6 - Puerto Rico region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71415998.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8735,
+          17.999,
+          11.6
+        ]
+      },
+      "id": "pr71415998"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.6,
+        "place": "63 km SW of Buckland, Alaska",
+        "time": 1688362424,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpse",
+        "tsunami": 0,
+        "code": "6000kpse",
+        "type": "earthquake",
+        "title": "M 2.6 - 63 km SW of Buckland, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kpse.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.994,
+          65.5365,
+          6.178
+        ]
+      },
+      "id": "us6000kpse"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.95,
+        "place": "Mona Passage",
+        "time": 1688360907,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr2023184001",
+        "tsunami": 0,
+        "code": "2023184001",
+        "type": "earthquake",
+        "title": "M 4.0 - Mona Passage",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/2023184001.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.1748,
+          18.0351,
+          164
+        ]
+      },
+      "id": "pr2023184001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.8,
+        "place": "107 km S of Kaktovik, Alaska",
+        "time": 1688360376,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238gdmbbz",
+        "tsunami": 0,
+        "code": "0238gdmbbz",
+        "type": "earthquake",
+        "title": "M 2.8 - 107 km S of Kaktovik, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238gdmbbz.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -143.6426,
+          69.1642,
+          35.2
+        ]
+      },
+      "id": "ak0238gdmbbz"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.4,
+        "place": "Greenland Sea",
+        "time": 1688356891,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kps1",
+        "tsunami": 0,
+        "code": "6000kps1",
+        "type": "earthquake",
+        "title": "M 4.4 - Greenland Sea",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kps1.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.6136,
+          73.4193,
+          10
+        ]
+      },
+      "id": "us6000kps1"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.63,
+        "place": "Puerto Rico region",
+        "time": 1688353407,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr71415968",
+        "tsunami": 0,
+        "code": "71415968",
+        "type": "earthquake",
+        "title": "M 2.6 - Puerto Rico region",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/71415968.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.8425,
+          17.9268333333333,
+          13.52
+        ]
+      },
+      "id": "pr71415968"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 5.4,
+        "place": "Papua, Indonesia",
+        "time": 1688352694,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kprr",
+        "tsunami": 0,
+        "code": "6000kprr",
+        "type": "earthquake",
+        "title": "M 5.4 - Papua, Indonesia",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kprr.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.1702,
+          -3.7294,
+          12.993
+        ]
+      },
+      "id": "us6000kprr"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.6,
+        "place": "33 km ESE of Cruz Bay, U.S. Virgin Islands",
+        "time": 1688351821,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pr2023184000",
+        "tsunami": 0,
+        "code": "2023184000",
+        "type": "earthquake",
+        "title": "M 3.6 - 33 km ESE of Cruz Bay, U.S. Virgin Islands",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/2023184000.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.4988,
+          18.2275,
+          127
+        ]
+      },
+      "id": "pr2023184000"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.2,
+        "place": "69 km W of Ollag\u00fce, Chile",
+        "time": 1688349013,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kprm",
+        "tsunami": 0,
+        "code": "6000kprm",
+        "type": "earthquake",
+        "title": "M 4.2 - 69 km W of Ollag\u00fce, Chile",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kprm.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.914,
+          -21.1079,
+          114.46
+        ]
+      },
+      "id": "us6000kprm"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.8,
+        "place": "92 km WNW of Sola, Vanuatu",
+        "time": 1688348296,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kprl",
+        "tsunami": 0,
+        "code": "6000kprl",
+        "type": "earthquake",
+        "title": "M 4.8 - 92 km WNW of Sola, Vanuatu",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kprl.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.7603,
+          -13.5684,
+          75.164
+        ]
+      },
+      "id": "us6000kprl"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.7,
+        "place": "175 km ENE of Saipan, Northern Mariana Islands",
+        "time": 1688347369,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kprk",
+        "tsunami": 0,
+        "code": "6000kprk",
+        "type": "earthquake",
+        "title": "M 4.7 - 175 km ENE of Saipan, Northern Mariana Islands",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/6000kprk.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          147.3585,
+          15.534,
+          10
+        ]
+      },
+      "id": "us6000kprk"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3,
+        "place": "240 km SSE of King Cove, Alaska",
+        "time": 1688342756,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238gax6v9",
+        "tsunami": 0,
+        "code": "0238gax6v9",
+        "type": "earthquake",
+        "title": "M 3.0 - 240 km SSE of King Cove, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/03/0238gax6v9.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.4867,
+          52.9586,
+          5
+        ]
+      },
+      "id": "ak0238gax6v9"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 3.5,
+        "place": "104 km SW of Akhiok, Alaska",
+        "time": 1688341416,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238f1arwn",
+        "tsunami": 0,
+        "code": "0238f1arwn",
+        "type": "earthquake",
+        "title": "M 3.5 - 104 km SW of Akhiok, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/0238f1arwn.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.5691,
+          56.4061,
+          26.7
+        ]
+      },
+      "id": "ak0238f1arwn"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.7,
+        "place": "Alaska Peninsula",
+        "time": 1688340569,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238f17rcv",
+        "tsunami": 0,
+        "code": "0238f17rcv",
+        "type": "earthquake",
+        "title": "M 2.7 - Alaska Peninsula",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/0238f17rcv.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.9622,
+          57.7528,
+          16.4
+        ]
+      },
+      "id": "ak0238f17rcv"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.5,
+        "place": "Alaska Peninsula",
+        "time": 1688340304,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238f16uit",
+        "tsunami": 0,
+        "code": "0238f16uit",
+        "type": "earthquake",
+        "title": "M 2.5 - Alaska Peninsula",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/0238f16uit.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.9338,
+          57.7304,
+          16.6
+        ]
+      },
+      "id": "ak0238f16uit"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.6,
+        "place": "55 km ESE of Palca, Peru",
+        "time": 1688339831,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000kpqw",
+        "tsunami": 0,
+        "code": "6000kpqw",
+        "type": "earthquake",
+        "title": "M 4.6 - 55 km ESE of Palca, Peru",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/6000kpqw.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.4962,
+          -17.9979,
+          146.714
+        ]
+      },
+      "id": "us6000kpqw"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 4.4,
+        "place": "90 km ENE of Ugashik, Alaska",
+        "time": 1688338025,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0238f0q4pu",
+        "tsunami": 0,
+        "code": "0238f0q4pu",
+        "type": "earthquake",
+        "title": "M 4.4 - 90 km ENE of Ugashik, Alaska",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/0238f0q4pu.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.9668,
+          57.7796,
+          11.7
+        ]
+      },
+      "id": "ak0238f0q4pu"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 2.7,
+        "place": "31 km NW of Toyah, Texas",
+        "time": 1688337933,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/tx2023mwgr",
+        "tsunami": 0,
+        "code": "2023mwgr",
+        "type": "earthquake",
+        "title": "M 2.7 - 31 km NW of Toyah, Texas",
+        "report_url": "https://home.saintaardvarkthecarpeted.com/earthquake_data/2023/07/02/2023mwgr.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.0133316,
+          31.52915022,
+          8.650952148
+        ]
+      },
+      "id": "tx2023mwgr"
+    }
+  ],
+  "bbox": [
+    -177.0942,
+    -24.3316,
+    5,
+    169.6425,
+    73.4193,
+    164
+  ]
+}
