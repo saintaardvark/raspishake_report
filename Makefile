@@ -122,7 +122,7 @@ install_datasette_plugins:
 
 build_db:
 	./src/usgs.py build_db --feed LAST_DAY_OVER_2_POINT_5
-	geojson-to-sqlite --alter my.db features 2.5_day.geojsonxo
+	geojson-to-sqlite --alter my.db features 2.5_day.geojson
 
 #################################################################################
 # PROJECT RULES                                                                 #
