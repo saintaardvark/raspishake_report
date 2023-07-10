@@ -148,7 +148,7 @@ def generate_html(report_dir, event_id, report_img):
         )
 
 
-def plot_arrivals(ax, arrs, delay, duration):
+def plot_arrivals(ax, arrs, eventTime, start, duration):
     """
     Plot arrivals
 
@@ -156,8 +156,9 @@ def plot_arrivals(ax, arrs, delay, duration):
 
     ax: axis to plot on
     arrs: table of arrival times -- seconds after event
-    delay: in original code, this is intended to be how long after event start
-           to begin the plot.
+    eventTime: time the event started
+    start: the start of the graph time
+
     duration: how long the plot is (seconds)
     """
     y1 = -1
@@ -165,11 +166,12 @@ def plot_arrivals(ax, arrs, delay, duration):
     axb, axt = ax.get_ylim()  # calculate the y limits of the graph
     for q in range(0, no_arrs):  # plot each arrival in turn
         x1 = arrs[q].time  # extract the time to plot
-        logger.debug(f"{x1}, {delay}")
-        if x1 <= delay:
-            logger.debug(f"Arrival number {q} is <= delay, not plotting")
+        logger.debug(f"{x1}, {eventTime}, {start}")
+        if eventTime + x1 <= start:
+            logger.debug(f"Arrival number {q} is <= start of graph, not plotting")
             continue
-        if x1 > delay + duration:
+        if eventTime + x1 > start + duration:
+            # FIXME: I think this could just be `if x1 > duration`
             logger.debug(f"Arrival number {q} is after end of graph, not plotting")
             continue
 
@@ -946,13 +948,13 @@ def main_plot(
 
     # plot phase arrivals
     logger.debug("plot arrivals on displacement plot")
-    plot_arrivals(ax1, arrs, delay, duration)  # plot arrivals on displacement plot
+    plot_arrivals(ax1, arrs, eventTime, start, duration)  # plot arrivals on displacement plot
     logger.debug("plot arrivals on velocity plot")
-    plot_arrivals(ax2, arrs, delay, duration)  # plot arrivals on velocity plot
+    plot_arrivals(ax2, arrs, eventTime, start, duration)  # plot arrivals on velocity plot
     logger.debug("plot arrivals on acceleration plot")
-    plot_arrivals(ax3, arrs, delay, duration)  # plot arrivals on acceleration plot
+    plot_arrivals(ax3, arrs, eventTime, start, duration)  # plot arrivals on acceleration plot
     logger.debug("plot arrivals on energy plot")
-    plot_arrivals(ax6, arrs, delay, duration)  # plot arrivals on energy plot
+    plot_arrivals(ax6, arrs, eventTime, start, duration)  # plot arrivals on energy plot
 
     # set up some plot details
     ax1.set_ylabel("Vertical Displacement, m", size="small")
