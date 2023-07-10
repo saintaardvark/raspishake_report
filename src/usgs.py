@@ -3,6 +3,7 @@
 import configparser
 from datetime import datetime
 import json
+import math
 import requests
 
 import click
@@ -94,6 +95,33 @@ def build_db(feed):
         f.write(json.dumps(quakes, indent=2))
 
 
+# TODO: copy-pasta from report.py, break out
+def calc_distance(latS, lonS, lat_e, lon_e):
+    # calculate great circle angle of separation
+    # convert angles to radians
+    latSrad = math.radians(latS)
+    lonSrad = math.radians(lonS)
+    latErad = math.radians(lat_e)
+    lonErad = math.radians(lon_e)
+    if lonSrad > lonErad:
+        lon_diff = lonSrad - lonErad
+    else:
+        lon_diff = lonErad - lonSrad
+
+    lonErad = math.radians(lon_e)
+
+    great_angle_rad = math.acos(
+        math.sin(latErad) * math.sin(latSrad)
+        + math.cos(latErad) * math.cos(latSrad) * math.cos(lon_diff)
+    )
+    great_angle_deg = math.degrees(
+        great_angle_rad
+    )  # great circle angle between quake and station
+    distance = (
+        great_angle_rad * 12742 / 2
+    )  # calculate distance between quake and station in km
+    return distance
+
 @click.command("query", short_help="query earthquakes")
 @click.option(
     "--feed",
@@ -102,7 +130,12 @@ def build_db(feed):
     show_default=True,
     help="Feed to use",
 )
-def query(feed):
+@click.option(  # FIXME: This should be broken out
+    "--distance-only/--no-distance-only",
+    default=False,
+    help="Just list earthquakes with distance from station",
+)
+def query(feed, distance_only):
     """
     Main entry point
     """
@@ -128,6 +161,21 @@ def query(feed):
         event_id = quake["properties"]["code"]
         location = quake["properties"]["place"]
         url = quake["properties"]["url"]
+
+        # FIXME: read this from report.ini
+        latS = 49.284
+        lonS = -123.021
+        distance = calc_distance(latS=latS, lonS=lonS, lat_e=lat_e, lon_e=lon_e)
+        #: FIXME: This is so not done yet
+        if distance_only:
+            print(
+                f"Distance: {distance}, "
+                f"Mag: {mag}, ",
+                f"Event ID: {event_id}",
+                f"Location: {location}, ",
+                f"Time: {time_e}, "
+            )
+            continue
         print(
             f"./src/report.py main_plot "
             + f"--lat_e {lat_e} "
@@ -138,6 +186,7 @@ def query(feed):
             + f"--event_id {event_id} "
             + f'--location "{location}" '
             + "--save_file"
+            + f" # {distance}"
         )
         print("sleep $(($RANDOM % 60))")
 
