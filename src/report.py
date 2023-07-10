@@ -151,22 +151,36 @@ def generate_html(report_dir, event_id, report_img):
 def plot_arrivals(ax, arrs, delay, duration):
     """
     Plot arrivals
+
+    Params:
+
+    ax: axis to plot on
+    arrs: table of arrival times -- seconds after event
+    delay: in original code, this is intended to be how long after event start
+           to begin the plot.
+    duration: how long the plot is (seconds)
     """
     y1 = -1
     no_arrs = len(arrs)
     axb, axt = ax.get_ylim()  # calculate the y limits of the graph
     for q in range(0, no_arrs):  # plot each arrival in turn
         x1 = arrs[q].time  # extract the time to plot
-        if x1 >= delay:
-            if x1 < delay + duration:
-                ax.axvline(
-                    x=x1, linewidth=0.5, linestyle="--", color="black"
-                )  # draw a vertical line
-                if y1 < 0 or y1 < axt / 2:  # alternate top and bottom for phase tags
-                    y1 = axt * 0.8
-                else:
-                    y1 = axb * 0.95
-                ax.text(x1, y1, arrs[q].name, alpha=0.5)  # print the phase name
+        logger.debug(f"{x1}, {delay}")
+        if x1 <= delay:
+            logger.debug(f"Arrival number {q} is <= delay, not plotting")
+            continue
+        if x1 > delay + duration:
+            logger.debug(f"Arrival number {q} is after end of graph, not plotting")
+            continue
+
+        ax.axvline(
+            x=x1, linewidth=0.5, linestyle="--", color="black"
+        )  # draw a vertical line
+        if y1 < 0 or y1 < axt / 2:  # alternate top and bottom for phase tags
+            y1 = axt * 0.8
+        else:
+            y1 = axb * 0.95
+        ax.text(x1, y1, arrs[q].name, alpha=0.5)  # print the phase name
 
 
 def time2UTC(eventTime, a):
