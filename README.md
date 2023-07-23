@@ -2,6 +2,11 @@
 
 Raspberry Shake Reports!
 
+Alan Sheehan's work at https://github.com/sheeny72/RPiSandB is the
+basis for this; I've added some things and tidied up the code a bit,
+but this is all based on Alan's work and would not exist without his
+generosity.  Thank you, Alan!
+
 ## How it works
 
 - `src/usgs.py` will query the USGS feed
