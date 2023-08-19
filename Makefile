@@ -112,7 +112,7 @@ rsync:
 	rsync -avr rh:/backup/batch_jobs/raspishake_report/reports/. ./reports
 
 today: rsync
-	find reports -type f -ctime -1 -exec xdg-open '{}' \;
+	find reports -type f -ctime -1 -name \*html -exec xdg-open '{}' \;
 
 datasette: install_datasette_plugins build_db
 	datasette my.db
