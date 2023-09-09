@@ -463,7 +463,7 @@ def main_plot(
     # calculate Rayleigh Wave arrival Time
     rayt = distance / 2.96
 
-    delay=get_delay(delay, config)
+    delay = get_delay(delay, config)
     start_time_strategy = get_start_time_strategy(start_time_strategy, config)
     # TODO: Turn this into something like "first wave arrival time - 30 seconds"
     start = get_start_time(
