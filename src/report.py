@@ -21,6 +21,14 @@ from obspy import read, read_inventory
 
 from util import generate_html_filename, generate_report_dir
 
+FILTERS = {
+    "global": [0.1, 0.2, 0.9, 1.0],
+    "distant": [0.6, 0.7, 2, 2.1],  # distant quake,
+    "semi-distant": [0.6, 0.7, 6, 6.1],
+    "medium": [0.6, 0.7, 8, 8.1],
+    "near": [1, 1.1, 10, 10.1],
+    "local": [1, 1.1, 20, 20.1],  # use for local quakes
+}
 
 @click.group()
 def report():
@@ -352,6 +360,7 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
 @click.option(
     "--bandpass_filter",
     default="distant",
+    type=click.Choice(FILTERS.keys()),
     help="Which filter to use: distant, semi-distant, medium, near, local",
 )
 @click.option("--lat_e", default=0, type=float, help="Earthquake latitude")
@@ -480,16 +489,7 @@ def main_plot(
     bnend = eventTime + config.getint("DEFAULT", "bn_end")
 
     # bandpass filter - select to suit system noise and range of quake
-    filters = {
-        "global": [0.1, 0.2, 0.9, 1.0],
-        "distant": [0.6, 0.7, 2, 2.1],  # distant quake,
-        "semi-distant": [0.6, 0.7, 6, 6.1],
-        "medium": [0.6, 0.7, 8, 8.1],
-        "near": [1, 1.1, 10, 10.1],
-        "local": [1, 1.1, 20, 20.1],  # use for local quakes
-    }
-
-    filt = filters[bandpass_filter]
+    filt = FILTERS[bandpass_filter]
     logger.debug(f"Using bandpass filter {bandpass_filter} ({filt})")
     # set the FDSN server location and channel names
     ch = "EHZ"  # ENx = accelerometer channels; EHx or SHZ = geophone channels
