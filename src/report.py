@@ -407,6 +407,13 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
     type=int,
     help="Seconds to start plot before arrival/before event time/after event time",
 )
+@click.option(
+    "--duration",
+    nargs=1,
+    type=int,
+    default=-1,
+    help="Duration for plot.  If provided, overrides config file's plot_duration value",
+)
 def main_plot(
     bandpass_filter,
     lat_e,
@@ -420,6 +427,7 @@ def main_plot(
     all_phases,
     start_time_strategy,
     delay,
+    duration,
 ):
     """
     Main entry point
@@ -481,9 +489,13 @@ def main_plot(
         eventTime=eventTime,
         arrs=arrs,
     )
-    logger.debug(f"Start: {start} {type(start)}")
-    duration = config.getint("DEFAULT", "plot_duration")
+    logger.debug(f"Start: {start}")
+    if duration == -1:
+        logger.debug("Taking this path...")
+        duration = config.getint("DEFAULT", "plot_duration")
+    logger.debug(f"Duration: {duration} ({type(duration)})")
     end = start + duration  # calculate the end time from the start and duration
+    logger.debug(f"End: {end}")
     #
     bnstart = eventTime - config.getint("DEFAULT", "bn_start")
     bnend = eventTime + config.getint("DEFAULT", "bn_end")
