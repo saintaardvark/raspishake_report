@@ -860,7 +860,7 @@ def main_plot(
     fig.text(x2, 0.03, "Phase", size="small", rotation=90)  # print headings
     fig.text(x2, 0.09, "Time", size="small", rotation=90)
     fig.text(x2, 0.15, "UTC", size="small", rotation=90)
-    fig.text(x2, 0.2, "Vertical Component", alpha=0.5, size="small", rotation=90)
+    fig.text(x2, 0.25, "Vertical Component", alpha=0.5, size="small", rotation=90)
     pphases = []  # create an array of phases to plot
     pfile = ""  # create phase names for filename
     alf = 1.0  # set default transparency
@@ -878,7 +878,7 @@ def main_plot(
         fig.text(
             x2,
             0.09,
-            str(round(arrs[i].time, 3)) + "s",
+            str(round(arrs[i].time, 1)) + "s",
             size="small",
             rotation=90,
             alpha=alf,
@@ -900,7 +900,7 @@ def main_plot(
         ):  # calculate and print the vertical component of the signal
             fig.text(
                 x2,
-                0.2,
+                0.25,
                 str(round(100 * math.cos(math.radians(arrs[i].incident_angle)), 1))
                 + "%",
                 alpha=0.5,
@@ -915,7 +915,7 @@ def main_plot(
         ):
             fig.text(
                 x2,
-                0.2,
+                0.25,
                 str(round(100 * math.sin(math.radians(arrs[i].incident_angle)), 1))
                 + "%",
                 alpha=0.5,
