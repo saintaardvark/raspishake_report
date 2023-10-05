@@ -173,7 +173,7 @@ def query(feed, distance_only):
                 f"Mag: {mag}, ",
                 f"Event ID: {event_id}",
                 f"Location: {location}, ",
-                f"Time: {time_e}, "
+                f"Time: {time_e_formatted}, "
             )
             continue
         print(
