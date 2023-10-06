@@ -20,6 +20,7 @@ from obspy.taup import TauPyModel
 from obspy import read, read_inventory
 
 from util import generate_html_filename, generate_report_dir
+from peaks.arrivals import find_arrivals_in_data
 
 FILTERS = {
     "global": [0.1, 0.2, 0.9, 1.0],
@@ -546,6 +547,10 @@ def main_plot(
     vel_max = outvel[0].max()
     acc_max = outacc[0].max()
     se_max = vel_max * vel_max / 2
+
+    # See if there are any peaks.  Height of disp_max/4 picked
+    # arbitrarily but seems okay...at least in the positive case.
+    find_arrivals_in_data(outdisp[0].data, disp_max/4, arrs)
 
     # Create background noise traces
     logger.debug("Removing response from bn0...")
