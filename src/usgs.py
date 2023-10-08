@@ -37,7 +37,10 @@ def build_db(feed):
     quakes = get_quakes_from_feed(feed)
     logger.debug(f"Got {len(quakes['features'])} quakes")
     for quake in quakes["features"]:
-        # TODO: This is *huge* code duplication
+        # TODO: This is something that doesn't fit well with the way
+        # I'm using Event class down below
+        # TODO: The name of this command is wrong; the Makefile target
+        # takes the JSON we produce and runs geojson-to-sqlite
         event_id = quake["properties"]["code"]
         logger.debug(f"Got {event_id=}")
         mag = quake["properties"]["mag"]
