@@ -109,7 +109,7 @@ save_plot:
 		--save_file
 
 rsync:
-	rsync -avr rh:/backup/batch_jobs/raspishake_report/reports/. ./reports
+	rsync -avr --delete rh:/backup/batch_jobs/raspishake_report/reports/. ./reports
 
 today: rsync
 	find reports -type f -ctime -1 -name \*html -exec xdg-open '{}' \;
@@ -119,10 +119,6 @@ datasette: install_datasette_plugins build_db
 
 install_datasette_plugins:
 	datasette install datasette-cluster-map datasette-geojson-map datasette-render-timestamps
-
-build_db:
-	./src/usgs.py build_db --feed LAST_DAY_OVER_2_POINT_5
-	geojson-to-sqlite --alter my.db features 2.5_day.geojson
 
 #################################################################################
 # PROJECT RULES                                                                 #

@@ -23,44 +23,6 @@ def usgs():
     """
 
 
-@click.command("build_db", short_help="Build/update sqlite db")
-@click.option(
-    "--feed",
-    type=click.Choice(list(USGS_FEEDS.keys())),
-    default="LAST_DAY_OVER_4_POINT_5",
-    show_default=True,
-    help="Feed to use",
-)
-def build_db(feed):
-    """
-    Build/update sqlite db
-    """
-    quakes = get_quakes_from_feed(feed)
-    logger.debug(f"Got {len(quakes['features'])} quakes")
-    for quake in quakes["features"]:
-        # TODO: This is something that doesn't fit well with the way
-        # I'm using Event class down below
-        # TODO: The name of this command is wrong; the Makefile target
-        # takes the JSON we produce and runs geojson-to-sqlite
-        event_id = quake["properties"]["code"]
-        logger.debug(f"Got {event_id=}")
-        mag = quake["properties"]["mag"]
-        location = quake["properties"]["place"]
-
-        eventTime = UTCDateTime(quake["properties"]["time"] / 1000)  # ms since epoch
-        pfile = "All"
-        quake["properties"]["report_url"] = generate_report_url(event_id, eventTime)
-        logger.debug(f"URL: {quake['properties']['report_url']}")
-        for i in UNWANTED_GEOJSON_COLS:
-            quake["properties"].pop(i, None)
-
-        quake["properties"]["time"] = int(quake["properties"]["time"] / 1000)
-
-    local_filename = feed_url.split("/")[-1]
-    with open(local_filename, "w") as f:
-        f.write(json.dumps(quakes, indent=2))
-
-
 @click.command("pretty_table", short_help="Pretty table")
 @click.option(
     "--feed",
@@ -181,7 +143,6 @@ def script_report(feed, distance_only):
 
 usgs.add_command(script_report)
 usgs.add_command(pretty_table)
-usgs.add_command(build_db)
 
 if __name__ == "__main__":
     usgs()

@@ -7,8 +7,6 @@ source .venv/bin/activate
 echo
 echo
 
-make build_db
-
 TD=$(mktemp -d)
 TEMPSCRIPT=${TD}/cron.sh
 echo "#!/bin/bash -x" > $TEMPSCRIPT
