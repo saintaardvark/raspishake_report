@@ -49,16 +49,16 @@ class Event:
         """
         Calculate arrival times
         """
-        if self._cache["arrival_times"]:
+        if "arrival_times" in self._cache:
             return self._cache["arrival_times"]
-        logger.debug("Calculating phase arrivals...")
+        # logger.debug("Calculating phase arrivals...")
 
         great_angle_deg = self.calculate_great_angle(stn)
-        arrs = self.model.get_travel_times(self.depth, great_angle_deg)
-        logger.debug(
-            arrs
-        )  # print the arrivals for reference when setting delay and duration
-        return
+        arrs = self._model.get_travel_times(self._depth, great_angle_deg)
+        # logger.debug(
+        #     arrs
+        # )  # print the arrivals for reference when setting delay and duration
+        return arrs
 
     def calculate_great_angle(self, stn: Station, units: str = "deg"):
         # convert angles to radians
