@@ -4,7 +4,6 @@ import configparser
 from datetime import datetime
 import json
 import math
-import requests
 
 import click
 from loguru import logger
@@ -13,36 +12,7 @@ from obspy.core import UTCDateTime
 from util import generate_report_url
 
 from travel_times import Station, Event
-
-USGS_FEEDS = {
-    "LAST_DAY_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
-    "LAST_DAY_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
-    "LAST_DAY_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson",
-    "LAST_WEEK_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
-    "LAST_WEEK_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
-    "LAST_WEEK_OVER_1_POINT_0": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
-}
-
-UNWANTED_GEOJSON_COLS = [
-    "updated",
-    "tz",
-    "detail",
-    "felt",
-    "cdi",
-    "mmi",
-    "alert",
-    "status",
-    "ids",
-    "sources",
-    "types",
-    "nst",
-    "gap",
-    "magType",
-    "net",
-    "dmin",
-    "sig",
-    "rms",
-]
+from usgs import USGS_FEEDS, UNWANTED_GEOJSON_COLS, get_quakes_from_feed
 
 
 @click.group()
@@ -64,17 +34,7 @@ def build_db(feed):
     """
     Build/update sqlite db
     """
-    # FIXME: Copy-pasta of query()
-    feed_url = ""
-    try:
-        feed_url = USGS_FEEDS[feed]
-    except IndexError:
-        print("Invalid choice for feed!  Valid options: ")
-        print(", ".join(list(USGS_FEEDS.keys())))
-
-    logger.debug(f"Getting {feed_url}...")
-    resp = requests.get(feed_url)
-    quakes = resp.json()
+    quakes = get_quakes_from_feed(feed)
     logger.debug(f"Got {len(quakes['features'])} quakes")
     for quake in quakes["features"]:
         # TODO: This is *huge* code duplication
@@ -97,9 +57,7 @@ def build_db(feed):
         f.write(json.dumps(quakes, indent=2))
 
 
-
-
-@click.command("query", short_help="query earthquakes")
+@click.command("script_report", short_help="query earthquakes, and print report.py commands")
 @click.option(
     "--feed",
     type=click.Choice(list(USGS_FEEDS.keys())),
@@ -112,19 +70,11 @@ def build_db(feed):
     default=False,
     help="Just list earthquakes with distance from station",
 )
-def query(feed, distance_only):
+def script_report(feed, distance_only):
     """
     Main entry point
     """
-    feed_url = ""
-    try:
-        feed_url = USGS_FEEDS[feed]
-    except IndexError:
-        print("Invalid choice for feed!  Valid options: ")
-        print(", ".join(list(USGS_FEEDS.keys())))
-    resp = requests.get(feed_url)
-    quakes = resp.json()
-    # print(json.dumps(quakes, indent=2))
+    quakes = get_quakes_from_feed(feed)
 
     stn = Station(cfg_file="report.ini")
 
@@ -170,7 +120,7 @@ def query(feed, distance_only):
         print("sleep $(($RANDOM % 60))")
 
 
-usgs.add_command(query)
+usgs.add_command(script_report)
 usgs.add_command(build_db)
 
 if __name__ == "__main__":
