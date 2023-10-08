@@ -12,6 +12,8 @@ from obspy.core import UTCDateTime
 
 from util import generate_report_url
 
+from travel_times import Station, Event
+
 USGS_FEEDS = {
     "LAST_DAY_OVER_4_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson",
     "LAST_DAY_OVER_2_POINT_5": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
@@ -95,32 +97,7 @@ def build_db(feed):
         f.write(json.dumps(quakes, indent=2))
 
 
-# TODO: copy-pasta from report.py, break out
-def calc_distance(latS, lonS, lat_e, lon_e):
-    # calculate great circle angle of separation
-    # convert angles to radians
-    latSrad = math.radians(latS)
-    lonSrad = math.radians(lonS)
-    latErad = math.radians(lat_e)
-    lonErad = math.radians(lon_e)
-    if lonSrad > lonErad:
-        lon_diff = lonSrad - lonErad
-    else:
-        lon_diff = lonErad - lonSrad
 
-    lonErad = math.radians(lon_e)
-
-    great_angle_rad = math.acos(
-        math.sin(latErad) * math.sin(latSrad)
-        + math.cos(latErad) * math.cos(latSrad) * math.cos(lon_diff)
-    )
-    great_angle_deg = math.degrees(
-        great_angle_rad
-    )  # great circle angle between quake and station
-    distance = (
-        great_angle_rad * 12742 / 2
-    )  # calculate distance between quake and station in km
-    return distance
 
 @click.command("query", short_help="query earthquakes")
 @click.option(
@@ -149,42 +126,44 @@ def query(feed, distance_only):
     quakes = resp.json()
     # print(json.dumps(quakes, indent=2))
 
+    stn = Station(cfg_file="report.ini")
+
     # TODO: We should be parsing this w/geojson
     for quake in quakes["features"]:
         lon_e, lat_e, depth = quake["geometry"]["coordinates"]
-        mag = quake["properties"]["mag"]
-        time_e = quake["properties"]["time"] / 1000  # ms since epoch
-        time_e_formatted = datetime.utcfromtimestamp(time_e).strftime(
+        event = Event(
+            lat=lat_e,
+            lon=lon_e,
+            depth=depth,
+            mag=quake["properties"]["mag"],
+            time=quake["properties"]["time"] / 1000,  # ms since epoch
+            event_id=quake["properties"]["code"],
+            location=quake["properties"]["place"],
+            url=quake["properties"]["url"],
+        )
+        time_e_formatted = datetime.utcfromtimestamp(event._time).strftime(
             "%Y-%m-%dT%H:%M:%S"
         )
 
-        event_id = quake["properties"]["code"]
-        location = quake["properties"]["place"]
-        url = quake["properties"]["url"]
-
-        # FIXME: read this from report.ini
-        latS = 49.284
-        lonS = -123.021
-        distance = calc_distance(latS=latS, lonS=lonS, lat_e=lat_e, lon_e=lon_e)
+        distance = event.calculate_distance(stn=stn)
         #: FIXME: This is so not done yet
         if distance_only:
             print(
-                f"Distance: {distance}, "
-                f"Mag: {mag}, ",
-                f"Event ID: {event_id}",
-                f"Location: {location}, ",
-                f"Time: {time_e_formatted}, "
+                f"Distance: {distance}, " f"Mag: {event._mag}, ",
+                f"Event ID: {event._event_id}",
+                f"Location: {event_location}, ",
+                f"Time: {time_e_formatted}, ",
             )
             continue
         print(
             f"./src/report.py main_plot "
-            + f"--lat_e {lat_e} "
-            + f"--lon_e {lon_e} "
-            + f"--depth {depth} "
-            + f"--mag {mag} "
+            + f"--lat_e {event._lat} "
+            + f"--lon_e {event._lon} "
+            + f"--depth {event._depth} "
+            + f"--mag {event._mag} "
             + f"--time_e {time_e_formatted} "
-            + f"--event_id {event_id} "
-            + f'--location "{location}" '
+            + f"--event_id {event._event_id} "
+            + f'--location "{event._location}" '
             + "--save_file"
             + f" # {distance}"
         )
