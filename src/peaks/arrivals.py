@@ -6,7 +6,7 @@ def find_arrivals_in_data(data, height, arrs):
     """
     Find peaks in data & see if they match arrival times
     """
-    peaks = find_peaks(data, height)[0]
+    peaks = find_peaks(data, height=height, width=100)[0]
     logger.debug(f"{peaks=}")
     # 100 Hz sample rate
     # I *think* we need to add delay here?
