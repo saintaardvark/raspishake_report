@@ -19,7 +19,7 @@ from obspy.signal import filter
 from obspy.taup import TauPyModel
 from obspy import read, read_inventory
 
-from stn import get_inv
+from station import get_inv
 from util import generate_html_filename, generate_report_dir
 from peaks.arrivals import find_arrivals_in_data
 
@@ -31,6 +31,7 @@ FILTERS = {
     "near": [1, 1.1, 10, 10.1],
     "local": [1, 1.1, 20, 20.1],  # use for local quakes
 }
+
 
 @click.group()
 def report():
@@ -361,7 +362,7 @@ def plot_map(lat_e=0, lon_e=0, lat_s=0, lon_s=0):
 )
 @click.option(
     "--all_phases/--no-all_phases",
-    default=True,
+    default=False,
     help="Plot all phases; otherwise only those in the plotted time window are plotted",
 )
 @click.option(
@@ -527,7 +528,7 @@ def main_plot(
 
     # See if there are any peaks.  Height of disp_max/4 picked
     # arbitrarily but seems okay...at least in the positive case.
-    find_arrivals_in_data(outdisp[0].data, disp_max/4, arrs)
+    find_arrivals_in_data(outdisp[0].data, disp_max / 4, arrs)
 
     # Create background noise traces
     logger.debug("Removing response from bn0...")
