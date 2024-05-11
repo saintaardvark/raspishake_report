@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import configparser
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import math
 
@@ -31,7 +31,13 @@ def usgs():
     show_default=True,
     help="Feed to use",
 )
-def pretty_table(feed):
+@click.option(
+    "--radius",
+    default=0,
+    show_default=True,
+    help="If > 0, only include quakes within this many km of the station.",
+)
+def pretty_table(feed, radius):
     """
     Print a pretty table
     """
@@ -60,16 +66,42 @@ def pretty_table(feed):
             url=quake["properties"]["url"],
         )
         all_events.append(event)
+
+    if radius > 0:
+        print(f"Filtering by radius {radius} from station")
+        all_events = [
+            event for event in all_events if event.calculate_distance(stn) <= radius
+        ]
+
     for event in sorted(all_events, key=lambda x: x._time):
-        arrs = event.get_arrival_times(stn)
-        first_arr = event._time + arrs[0].time
+        quaketime = datetime.utcfromtimestamp(event._time).strftime("%Y-%m-%d %H:%M:%S")
+        distance = event.calculate_distance(stn)
+        try:
+            arrs = event.get_arrival_times(stn)
+            first_arr = event._time + arrs[0].time
+            first_arr = datetime.utcfromtimestamp(first_arr).strftime("%Y-%m-%d %H:%M:%S")
+        except Exception as e:
+            # I'm getting errors like this for some close events: "No
+            # layer contains this depth".  This is in the source code
+            # (https://docs.obspy.org/_modules/obspy/taup/slowness_model.html),
+            # but there doesn't seem to be any obvious solution.  This
+            # only turned up when searching for nearby quakes, so all
+            # of these are in North America. Given that, I'm going to
+            # add a wild-ass guess derived from eyeballing travel
+            # times for quakes within 1000km.
+            print(f"Can't process quake {event._location}, {quaketime}: {e} -- will estimate time")
+            # Wild-ass guess:  about 15 seconds per 100 km
+            arr_time = 15 * (distance / 100)
+            first_arr = event._time + arr_time
+            first_arr = datetime.utcfromtimestamp(first_arr).strftime("%Y-%m-%d %H:%M:%S")
+            first_arr = f"ESTIMATE: {first_arr}"
         t.add_row(
             [
-                datetime.utcfromtimestamp(event._time).strftime("%Y-%m-%d %H:%M:%S"),
+                quaketime,
                 event._location,
-                event._mag,
-                int(event.calculate_distance(stn)),
-                datetime.utcfromtimestamp(first_arr).strftime("%Y-%m-%d %H:%M:%S"),
+                f"{event._mag:.2f}",
+                int(distance),
+                first_arr,
             ]
         )
 
