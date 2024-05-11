@@ -5,6 +5,7 @@ import math
 from loguru import logger
 from obspy.taup import TauPyModel
 
+
 @dataclass(init=False)
 class Station:
     """
@@ -44,7 +45,6 @@ class Event:
         # for arrival times, maybe other things
         self._cache = {}
 
-        
     def get_arrival_times(self, stn: Station):
         """
         Calculate arrival times
