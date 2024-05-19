@@ -94,7 +94,9 @@ def pretty_table(feed, radius):
             print(
                 f"Can't process quake {event._location}, {quaketime}: {e} -- will estimate time"
             )
-            # Wild-ass guess:  about 15 seconds per 100 km
+            # Wild-ass guess: about 15 seconds per 100 km.  Seems
+            # reasonable for local quakes (eg, within 300 km), but not
+            # so much for further quakes (eg, 4000 km).
             arr_time = 15 * (distance / 100)
             first_arr = event._time + arr_time
             first_arr = datetime.utcfromtimestamp(first_arr).strftime(
