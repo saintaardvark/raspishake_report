@@ -79,7 +79,9 @@ def pretty_table(feed, radius):
         try:
             arrs = event.get_arrival_times(stn)
             first_arr = event._time + arrs[0].time
-            first_arr = datetime.utcfromtimestamp(first_arr).strftime("%Y-%m-%d %H:%M:%S")
+            first_arr = datetime.utcfromtimestamp(first_arr).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
         except Exception as e:
             # I'm getting errors like this for some close events: "No
             # layer contains this depth".  This is in the source code
@@ -89,11 +91,15 @@ def pretty_table(feed, radius):
             # of these are in North America. Given that, I'm going to
             # add a wild-ass guess derived from eyeballing travel
             # times for quakes within 1000km.
-            print(f"Can't process quake {event._location}, {quaketime}: {e} -- will estimate time")
+            print(
+                f"Can't process quake {event._location}, {quaketime}: {e} -- will estimate time"
+            )
             # Wild-ass guess:  about 15 seconds per 100 km
             arr_time = 15 * (distance / 100)
             first_arr = event._time + arr_time
-            first_arr = datetime.utcfromtimestamp(first_arr).strftime("%Y-%m-%d %H:%M:%S")
+            first_arr = datetime.utcfromtimestamp(first_arr).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
             first_arr = f"ESTIMATE: {first_arr}"
         t.add_row(
             [
