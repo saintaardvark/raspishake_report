@@ -37,7 +37,13 @@ def usgs():
     show_default=True,
     help="If > 0, only include quakes within this many km of the station.",
 )
-def pretty_table(feed, radius):
+@click.option(
+    "--html/--no-html",
+    default=False,
+    show_default=True,
+    help="Generate HTML table",
+)
+def pretty_table(feed, radius, html):
     """
     Print a pretty table
     """
