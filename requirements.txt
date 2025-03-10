@@ -9,7 +9,7 @@ black
 python-dotenv>=0.5.1
 obspy
 matplotlib
-numpy
+numpy==1.25.0
 cartopy
 loguru==0.7.0
 datasette==0.64.3
